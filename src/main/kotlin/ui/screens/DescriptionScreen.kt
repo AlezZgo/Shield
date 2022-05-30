@@ -1,4 +1,4 @@
-package screens
+package ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,7 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import navigation.NavController
+import ui.navigation.NavController
 
 @Composable
 fun DescriptionScreen(
