@@ -11,12 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import data.db.Db
+import data.db.tables.PersonTable
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
 
 @Composable
 fun MainScreen(
     navController: NavController
 ) {
+
+    val db = Db.Base().database()
 
     val names = mutableListOf<String>("Александр", "Дмитрий", "Алексей", "Максим", "Олег")
     var text by remember { mutableStateOf("") }
@@ -41,7 +48,9 @@ fun MainScreen(
                 Button(onClick = {
                     repositoryText = "hello world"
                 }) {
-                    Text(text = "Запрос в бд")
+                    Text(text = transaction(db) {
+                        PersonTable.selectAll().distinct.toString()
+                    })
                 }
             }
 

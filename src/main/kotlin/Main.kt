@@ -5,6 +5,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import di.mainModule
+import org.koin.core.Koin
 import ui.navigation.NavController
 import ui.navigation.NavigationHost
 import ui.navigation.composable
@@ -27,6 +29,7 @@ fun App() {
 
 
 fun main() = application {
+
     Window(
         onCloseRequest = ::exitApplication,
         title = "Щит"
@@ -34,6 +37,8 @@ fun main() = application {
         App()
     }
 }
+
+
 
 enum class Screen{
     MainScreen,
