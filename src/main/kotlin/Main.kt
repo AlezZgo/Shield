@@ -9,16 +9,15 @@ import data.db.tables.Addresses
 import data.db.tables.Persons
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
 import ui.navigation.NavigationHost
 import ui.navigation.composable
 import ui.navigation.rememberNavController
-import ui.screens.DescriptionScreen
-import ui.screens.MainScreen
-import ui.screens.MainViewModel
+import ui.screens.description.DescriptionScreen
+import ui.screens.main.MainScreen
+import ui.screens.main.MainViewModel
 import java.sql.Connection
 
 @Composable

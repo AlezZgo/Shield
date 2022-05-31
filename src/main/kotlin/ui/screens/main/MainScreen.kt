@@ -1,4 +1,4 @@
-package ui.screens
+package ui.screens.main
 
 import Screen
 import Spinner
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -31,8 +30,6 @@ fun MainScreen(
     var text by remember { viewModel.requestText }
     val persons = viewModel.persons.collectAsState()
 
-    val stateVertical = rememberScrollState(0)
-
     Row(
         modifier = Modifier.background(Color.LightGray)
     ) {
@@ -45,11 +42,7 @@ fun MainScreen(
             Column {
                 Spinner()
 
-                Button(onClick = {
-                    navController.navigate(Screen.DescriptionScreen.name)
-                }) {
-                    Text("go to description")
-                }
+
             }
 
 
@@ -97,7 +90,9 @@ fun MainScreen(
                     state
                 ) {
                     items(persons.value) { person ->
-                        ObjectPreviewCard(person.name, person.age.toString())
+                        ObjectPreviewCard(person.name, person.age.toString()){
+                            navController.navigate(Screen.DescriptionScreen.name)
+                        }
                         Spacer(modifier = Modifier.height(5.dp))
                     }
 

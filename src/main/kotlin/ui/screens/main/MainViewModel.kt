@@ -1,4 +1,4 @@
-package ui.screens
+package ui.screens.main
 
 import androidx.compose.runtime.mutableStateOf
 import data.db.models.Person

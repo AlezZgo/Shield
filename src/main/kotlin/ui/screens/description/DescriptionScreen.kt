@@ -1,4 +1,4 @@
-package ui.screens
+package ui.screens.description
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,7 @@ fun DescriptionScreen(
             Button(onClick = {
                 navController.navigateBack()
             }) {
-                Text("navigate")
+                Text("Назад")
             }
         }
     }
