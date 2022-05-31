@@ -49,7 +49,7 @@ fun App() {
 
     val navController by rememberNavController(Screen.MainScreen.name)
 
-    val viewModel = remember{ MainViewModel(db) }
+    val viewModel = remember{ MainViewModel() }
 
     MaterialTheme {
         MainScreen(navController,viewModel)

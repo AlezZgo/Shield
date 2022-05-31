@@ -10,9 +10,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MainViewModel(
-    private val db: Database
-) {
+class MainViewModel {
 
     private val _persons = MutableStateFlow(emptyList<Person>())
     val persons get() = _persons.asStateFlow()
@@ -20,7 +18,7 @@ class MainViewModel(
     val requestText = mutableStateOf("")
 
     suspend fun refresh() {
-        _persons.emit(transaction(db) {
+        _persons.emit(transaction{
             Persons.selectAll().map(::toPerson)
         })
 
