@@ -31,21 +31,22 @@ fun App() {
 
     TransactionManager.defaultDatabase = db
 
-    transaction(db){
+    transaction{
         SchemaUtils.create(Addresses, Persons)
-
-        Persons.insert {
-            it[name] = "Михаил"
-            it[age] = 36
-            it[weight] = 100f
-            it[address] = 1212
-        }
     }
+
+//    transaction {
+//        Persons.insert {
+//            it[name] = "Михаил"
+//            it[age] = 36
+//            it[weight] = 100f
+//            it[address] = 1212
+//        }
+//    }
 
     val navController by rememberNavController(Screen.MainScreen.name)
 
     MaterialTheme {
-
         MainScreen(navController,MainViewModel(db))
         CustomNavigationHost(navController,MainViewModel(db))
     }
