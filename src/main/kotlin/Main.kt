@@ -24,7 +24,7 @@ import java.sql.Connection
 @Preview
 fun App() {
 
-    val db = Database.connect("jdbc:sqlite:file:test?mode=memory&cache=shared", "org.sqlite.JDBC")
+    val db = Database.connect("jdbc:sqlite:/data/data.db", "org.sqlite.JDBC")
 
     TransactionManager.manager.defaultIsolationLevel =
         Connection.TRANSACTION_SERIALIZABLE
