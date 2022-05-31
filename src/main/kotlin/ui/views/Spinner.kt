@@ -1,3 +1,5 @@
+package ui.views
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
@@ -15,12 +17,12 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Spinner() {
 
-    val tablesList = mutableListOf<String>("Персонал", "Табель", "Места", "Знакомые", "Люди")
+    val tablesList = mutableListOf("Персонал", "Табель", "Места", "Знакомые", "Люди")
 
     var currentTable by remember { mutableStateOf(tablesList[0]) }
     var expanded by remember { mutableStateOf(false) }
 
-    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
         Row(
             Modifier
                 .padding(18.dp)

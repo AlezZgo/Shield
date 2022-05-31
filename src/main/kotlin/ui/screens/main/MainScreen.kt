@@ -1,7 +1,7 @@
 package ui.screens.main
 
 import Screen
-import Spinner
+import ui.views.Spinner
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import data.db.models.ListOfStringPairs
+import data.db.models.Person
 import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
 
@@ -90,7 +92,7 @@ fun MainScreen(
                     state
                 ) {
                     items(persons.value) { person ->
-                        ObjectPreviewCard(person.name, person.age.toString()){
+                        ObjectPreviewCard(person.name, person.age.toString(),person.toListOfStringPairs()){
                             navController.navigate(Screen.DescriptionScreen.name)
                         }
                         Spacer(modifier = Modifier.height(5.dp))
