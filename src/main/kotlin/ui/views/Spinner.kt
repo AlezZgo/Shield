@@ -17,7 +17,6 @@ fun Spinner() {
 
     val tablesList = mutableListOf<String>("Персонал", "Табель", "Места", "Знакомые", "Люди")
 
-    // State variables
     var currentTable by remember { mutableStateOf(tablesList[0]) }
     var expanded by remember { mutableStateOf(false) }
 

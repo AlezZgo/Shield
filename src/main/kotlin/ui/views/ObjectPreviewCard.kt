@@ -16,14 +16,8 @@ fun ObjectPreviewCard(title: String, content: String){
             .fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(4.dp)) {
-            Text(
-                text = title,
-
-            )
-            Text(
-                text = content,
-
-            )
+            Text(text = title)
+            Text(text = content)
         }
 
     }
