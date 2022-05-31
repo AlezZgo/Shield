@@ -24,7 +24,7 @@ import java.sql.Connection
 @Preview
 fun App() {
 
-    val db = Database.connect("jdbc:sqlite:/data/data.db", "org.sqlite.JDBC")
+    val db = Database.connect("jdbc:sqlite:db/data.db", "org.sqlite.JDBC")
 
     TransactionManager.manager.defaultIsolationLevel =
         Connection.TRANSACTION_SERIALIZABLE
@@ -35,14 +35,16 @@ fun App() {
         SchemaUtils.create(Addresses, Persons)
     }
 
-//    transaction {
-//        Persons.insert {
-//            it[name] = "Михаил"
-//            it[age] = 36
-//            it[weight] = 100f
-//            it[address] = 1212
-//        }
-//    }
+    transaction {
+        for (i in 0..100){
+            Persons.insert {
+                it[name] = "$i person "
+                it[age] = 36
+                it[weight] = 100f
+                it[address] = 1212
+            }
+        }
+    }
 
     val navController by rememberNavController(Screen.MainScreen.name)
 

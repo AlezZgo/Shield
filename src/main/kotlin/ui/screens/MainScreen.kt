@@ -23,9 +23,8 @@ fun MainScreen(
     viewModel: MainViewModel,
 ) {
 
-    val names = mutableListOf<String>("Александр", "Дмитрий", "Алексей", "Максим", "Олег")
     var text by remember { mutableStateOf("") }
-    var persons by remember { mutableStateOf(listOf<Person>()) }
+    var persons by remember { mutableStateOf(viewModel.persons()) }
 
     Row(
         modifier = Modifier.background(Color.LightGray)
@@ -38,14 +37,6 @@ fun MainScreen(
         ) {
             Column {
                 Spinner()
-
-                Button(onClick = {
-                    persons = viewModel.persons()
-                }) {
-                    Text(text = persons.toString())
-                }
-
-
 
                 //                Button(onClick = {
 //                    navController.navigate(Screen.DescriptionScreen.name)
@@ -102,7 +93,7 @@ fun MainScreen(
                     modifier = Modifier
                         .padding(4.dp)
                 ) {
-                    items(names) { name ->
+                    items(persons) { person ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -110,7 +101,7 @@ fun MainScreen(
                         ) {
                             Text(
 
-                                text = name,
+                                text = person.name,
                                 modifier = Modifier.padding(4.dp)
                             )
                         }
