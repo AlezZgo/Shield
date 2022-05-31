@@ -36,16 +36,16 @@ fun App() {
         SchemaUtils.create(Addresses, Persons)
     }
 
-    transaction {
-        for (i in 0..100){
-            Persons.insert {
-                it[name] = "$i person "
-                it[age] = 36
-                it[weight] = 100f
-                it[address] = 1212
-            }
-        }
-    }
+//    transaction {
+//        for (i in 0..100){
+//            Persons.insert {
+//                it[name] = "$i person "
+//                it[age] = 36
+//                it[weight] = 100f
+//                it[address] = 1212
+//            }
+//        }
+//    }
 
     val navController by rememberNavController(Screen.MainScreen.name)
 

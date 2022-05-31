@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -24,7 +25,9 @@ class MainViewModel {
     fun refresh() {
         coroutineScope.launch {
             _persons.emit(transaction {
-                Persons.selectAll().map(::toPerson)
+                Persons.selectAll().andWhere {
+                    Persons.name.like("%${requestText.value}%")
+                }.map(::toPerson)
             })
 
         }

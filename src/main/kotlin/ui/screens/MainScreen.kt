@@ -1,5 +1,6 @@
 package ui.screens
 
+import Screen
 import Spinner
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
@@ -44,11 +45,11 @@ fun MainScreen(
             Column {
                 Spinner()
 
-                //                Button(onClick = {
-//                    navController.navigate(Screen.DescriptionScreen.name)
-//                }){
-//                    Text("go to description")
-//                }
+                Button(onClick = {
+                    navController.navigate(Screen.DescriptionScreen.name)
+                }) {
+                    Text("go to description")
+                }
             }
 
 
@@ -59,15 +60,16 @@ fun MainScreen(
                 .weight(4f)
                 .fillMaxHeight()
         ) {
-            Card{
+            Card {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedTextField(modifier = Modifier
                         .weight(4f)
                         .padding(4.dp),
+                        singleLine = true,
                         value = text,
-                        onValueChange = { newText -> text = newText })
+                        onValueChange = { newText -> if (newText.length <= 50) text = newText })
                     Button(modifier = Modifier
                         .padding(8.dp),
                         onClick = { viewModel.refresh() }) {
@@ -91,8 +93,7 @@ fun MainScreen(
                 val state = rememberLazyListState()
 
                 LazyColumn(
-                    modifier = Modifier
-,
+                    modifier = Modifier,
                     state
                 ) {
                     items(persons.value) { person ->
