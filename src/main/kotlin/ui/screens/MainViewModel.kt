@@ -1,5 +1,6 @@
 package ui.screens
 
+import androidx.compose.runtime.mutableStateOf
 import data.db.models.Person
 import data.db.tables.Persons
 import org.jetbrains.exposed.sql.Database
@@ -11,6 +12,9 @@ import java.lang.RuntimeException
 class MainViewModel(
     private val db: Database
 ) {
+
+    val persons = mutableStateOf(persons())
+    val requestText = mutableStateOf("")
 
     fun persons(): List<Person> =
         try {

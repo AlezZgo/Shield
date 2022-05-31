@@ -23,8 +23,8 @@ fun MainScreen(
     viewModel: MainViewModel,
 ) {
 
-    var text by remember { mutableStateOf("") }
-    var persons by remember { mutableStateOf(viewModel.persons()) }
+    var text by remember { viewModel.requestText }
+    val persons by remember { viewModel.persons }
 
     Row(
         modifier = Modifier.background(Color.LightGray)
