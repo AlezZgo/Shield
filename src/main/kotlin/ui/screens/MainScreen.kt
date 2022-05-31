@@ -11,23 +11,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import data.db.Db
-import data.db.tables.PersonTable
-import org.jetbrains.exposed.sql.select
+import data.db.models.Person
+import data.db.tables.Persons
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
+import ui.screens.MainViewModel
 
 @Composable
 fun MainScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel : MainViewModel,
 ) {
-
-    val db = Db.Base().database()
 
     val names = mutableListOf<String>("Александр", "Дмитрий", "Алексей", "Максим", "Олег")
     var text by remember { mutableStateOf("") }
-    var repositoryText by remember { mutableStateOf("") }
+    var persons by remember { mutableStateOf(listOf<Person>()) }
 
     Row(
         modifier = Modifier.background(Color.LightGray)
@@ -46,11 +49,10 @@ fun MainScreen(
 //                    Text("go to description")
 //                }
                 Button(onClick = {
-                    repositoryText = "hello world"
+                    persons = viewModel.persons()
+
                 }) {
-                    Text(text = transaction(db) {
-                        PersonTable.selectAll().distinct.toString()
-                    })
+                    Text(text = persons.toString())
                 }
             }
 
