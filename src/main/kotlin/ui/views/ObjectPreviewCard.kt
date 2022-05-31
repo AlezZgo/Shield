@@ -10,21 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ObjectCard(title: String, content: String){
+fun ObjectPreviewCard(title: String, content: String){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
-
     ) {
-        Column {
+        Column(modifier = Modifier.padding(4.dp)) {
             Text(
                 text = title,
-                modifier = Modifier.padding(4.dp)
+
             )
             Text(
                 text = content,
-                modifier = Modifier.padding(4.dp)
+
             )
         }
 

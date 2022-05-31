@@ -9,17 +9,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import data.db.models.Person
-import kotlinx.coroutines.launch
 import ui.navigation.NavController
-import ui.views.ObjectCard
+import ui.views.ObjectPreviewCard
 
 @Composable
 fun MainScreen(
@@ -59,29 +59,18 @@ fun MainScreen(
                 .weight(4f)
                 .fillMaxHeight()
         ) {
-            Card(
-                modifier = Modifier
-                    .padding(0.dp, 0.dp, 0.dp, 4.dp)
-            ) {
+            Card{
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    OutlinedTextField(
-                        modifier = Modifier.weight(4f)
-                            .background(Color.White),
+                    OutlinedTextField(modifier = Modifier
+                        .weight(4f)
+                        .padding(4.dp),
                         value = text,
-                        onValueChange = { newText ->
-                            text = newText
-                        },
-
-                        )
-                    Button(
-                        modifier = Modifier
-                            .padding(8.dp),
-                        onClick = {
-                            viewModel.refresh()
-
-                        }) {
+                        onValueChange = { newText -> text = newText })
+                    Button(modifier = Modifier
+                        .padding(8.dp),
+                        onClick = { viewModel.refresh() }) {
                         Text("Поиск")
                     }
                     Button(
@@ -96,17 +85,19 @@ fun MainScreen(
             Box(
                 modifier = Modifier
                     .weight(1f)
+                    .padding(top = 4.dp)
                     .fillMaxSize()
             ) {
                 val state = rememberLazyListState()
 
                 LazyColumn(
                     modifier = Modifier
-                        .padding(4.dp),
+,
                     state
                 ) {
                     items(persons.value) { person ->
-                        ObjectCard(person.name,person.age.toString())
+                        ObjectPreviewCard(person.name, person.age.toString())
+                        Spacer(modifier = Modifier.height(5.dp))
                     }
 
                 }
