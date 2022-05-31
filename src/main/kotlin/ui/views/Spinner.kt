@@ -6,12 +6,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,13 +15,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Spinner() {
 
-    val tablesList = mutableListOf<String>("Персонал", "Табель", "Места", "Знакомые","Люди")
+    val tablesList = mutableListOf<String>("Персонал", "Табель", "Места", "Знакомые", "Люди")
 
     // State variables
     var currentTable by remember { mutableStateOf(tablesList[0]) }
-    var expanded by remember { mutableStateOf(false)}
+    var expanded by remember { mutableStateOf(false) }
 
-    Box(Modifier.fillMaxWidth(),contentAlignment = Alignment.TopCenter) {
+    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
         Row(
             Modifier
                 .padding(18.dp)
@@ -36,14 +31,14 @@ fun Spinner() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) { // Anchor view
-            Text(text = currentTable,fontSize = 18.sp,modifier = Modifier.padding(end = 8.dp)) // Country name label
+            Text(text = currentTable, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp)) // Country name label
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
 
             //
             DropdownMenu(expanded = expanded, onDismissRequest = {
                 expanded = false
             }) {
-                tablesList.forEach{ country->
+                tablesList.forEach { country ->
                     DropdownMenuItem(onClick = {
                         expanded = false
                         currentTable = country

@@ -18,7 +18,7 @@ fun DescriptionScreen(
             Text(text = "Hello world!")
             Button(onClick = {
                 navController.navigateBack()
-            }){
+            }) {
                 Text("navigate")
             }
         }

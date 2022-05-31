@@ -1,3 +1,6 @@
+package ui.screens
+
+import Spinner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,20 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import data.db.models.Person
-import data.db.tables.Persons
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.selectAll
-import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
-import ui.screens.MainViewModel
 
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModel : MainViewModel,
+    viewModel: MainViewModel,
 ) {
 
     val names = mutableListOf<String>("Александр", "Дмитрий", "Алексей", "Максим", "Олег")
@@ -43,17 +38,20 @@ fun MainScreen(
         ) {
             Column {
                 Spinner()
-//                Button(onClick = {
+
+                Button(onClick = {
+                    persons = viewModel.persons()
+                }) {
+                    Text(text = persons.toString())
+                }
+
+
+
+                //                Button(onClick = {
 //                    navController.navigate(Screen.DescriptionScreen.name)
 //                }){
 //                    Text("go to description")
 //                }
-                Button(onClick = {
-                    persons = viewModel.persons()
-
-                }) {
-                    Text(text = persons.toString())
-                }
             }
 
 

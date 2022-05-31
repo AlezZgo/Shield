@@ -11,12 +11,12 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.transactions.transactionScope
 import ui.navigation.NavController
 import ui.navigation.NavigationHost
 import ui.navigation.composable
 import ui.navigation.rememberNavController
 import ui.screens.DescriptionScreen
+import ui.screens.MainScreen
 import ui.screens.MainViewModel
 import java.sql.Connection
 
@@ -29,7 +29,9 @@ fun App() {
     TransactionManager.manager.defaultIsolationLevel =
         Connection.TRANSACTION_SERIALIZABLE
 
-    transaction{
+    TransactionManager.defaultDatabase = db
+
+    transaction(db){
         SchemaUtils.create(Addresses, Persons)
 
         Persons.insert {
