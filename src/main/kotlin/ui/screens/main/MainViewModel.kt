@@ -20,6 +20,8 @@ class MainViewModel {
 
     val requestText = mutableStateOf("")
 
+    var expanded = mutableStateOf(false)
+
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun refresh() {

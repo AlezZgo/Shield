@@ -1,5 +1,6 @@
 package ui.screens.main
 
+import App
 import Screen
 import ui.views.Spinner
 import androidx.compose.foundation.VerticalScrollbar
@@ -16,8 +17,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
 import data.db.models.ListOfStringPairs
 import data.db.models.Person
 import ui.navigation.NavController
@@ -31,6 +34,8 @@ fun MainScreen(
 
     var text by remember { viewModel.requestText }
     val persons = viewModel.persons.collectAsState()
+
+    var expanded by remember { viewModel.expanded }
 
     Row(
         modifier = Modifier.background(Color.LightGray)
@@ -73,7 +78,9 @@ fun MainScreen(
                     Button(
                         modifier = Modifier
                             .padding(8.dp),
-                        onClick = {}) {
+                        onClick = {
+
+                        }) {
                         Text("Фильтр")
                     }
                 }
