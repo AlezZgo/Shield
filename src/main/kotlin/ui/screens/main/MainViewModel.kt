@@ -9,11 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MainViewModel {
+class MainViewModel(val tables: List<Table>) {
+
+    var currentTable = MutableStateFlow(tables.first())
 
     private val _persons = MutableStateFlow(emptyList<Person>())
     val persons get() = _persons.asStateFlow()

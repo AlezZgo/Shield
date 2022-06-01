@@ -13,14 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import org.jetbrains.exposed.sql.Table
+import ui.screens.main.MainViewModel
 
 @Composable
-fun Spinner() {
+fun Spinner(viewModel: MainViewModel) {
 
-    val tablesList = mutableListOf("Персонал", "Табель", "Места", "Знакомые", "Люди")
-
-    var currentTable by remember { mutableStateOf(tablesList[0]) }
     var expanded by remember { mutableStateOf(false) }
+
+    val currentTable by remember { mutableStateOf(viewModel.currentTable) }
 
     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
         Row(
@@ -32,19 +35,18 @@ fun Spinner() {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) { // Anchor view
-            Text(text = currentTable, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp)) // Country name label
+            Text(text = viewModel.currentTable.value.tableName, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
 
-            //
             DropdownMenu(expanded = expanded, onDismissRequest = {
                 expanded = false
             }) {
-                tablesList.forEach { country ->
+                viewModel.tables.forEach { table ->
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        currentTable = country
+                        currentTable.value = table
                     }) {
-                        Text(text = country)
+                        Text(text = table.tableName)
                     }
                 }
             }

@@ -47,12 +47,8 @@ fun MainScreen(
                 .padding(4.dp)
         ) {
             Column {
-                Spinner()
-
-
+                Spinner(viewModel)
             }
-
-
         }
 
         Column(
@@ -99,30 +95,7 @@ fun MainScreen(
                     state
                 ) {
                     items(persons.value) { person ->
-                        ObjectPreviewCard(person.name, person.age.toString(),person.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        toListOfStringPairs()){
+                        ObjectPreviewCard(person.name, person.age.toString(), listOf("ha" to "ma")){
                             navController.navigate(Screen.DescriptionScreen.name)
                         }
                         Spacer(modifier = Modifier.height(5.dp))

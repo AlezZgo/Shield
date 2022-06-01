@@ -16,13 +16,13 @@ import ui.navigation.NavController
 @Composable
 fun DescriptionScreen(
     navController: NavController,
-    common: Common
+//    common: Common
 ) {
     Surface {
         Column(modifier = Modifier.fillMaxSize()) {
-            common.paramList.forEach{ params->
-                Text(text = params.name, fontWeight = FontWeight.Bold)
-                params.params.forEach{ param->
+//            common.paramList.forEach{ params->
+//                Text(text = params.name, fontWeight = FontWeight.Bold)
+//                params.params.forEach{ param->
 //                    if(param.){
 //                        Text(modifier = Modifier.fillMaxWidth(), onClick = {
 //                            createWindow{
@@ -38,11 +38,11 @@ fun DescriptionScreen(
             }
 
         }
-        Button(onClick = {
-            navController.navigateBack()
-        }) {
-            Text("Назад")
-        }
-    }
-
-}
+//        Button(onClick = {
+//            navController.navigateBack()
+//        }) {
+//            Text("Назад")
+//        }
+//    }
+//
+//}

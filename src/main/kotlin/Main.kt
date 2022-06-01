@@ -7,8 +7,10 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import data.db.tables.AddressesTable
 import data.db.tables.PersonsTable
+import data.db.tables.RelativesTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
@@ -31,8 +33,13 @@ fun App() {
 
     TransactionManager.defaultDatabase = db
 
+    val tables = listOf<Table>(AddressesTable, PersonsTable,RelativesTable)
+
     transaction{
-        SchemaUtils.create(AddressesTable, PersonsTable)
+        tables.forEach {
+            SchemaUtils.create(it)
+        }
+
     }
 
 //    transaction {
@@ -48,7 +55,7 @@ fun App() {
 
     val navController by rememberNavController(Screen.MainScreen.name)
 
-    val viewModel = remember{ MainViewModel() }
+    val viewModel = remember{ MainViewModel(tables) }
 
     MaterialTheme {
         MainScreen(navController,viewModel)
