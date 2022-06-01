@@ -2,8 +2,8 @@ package ui.screens.main
 
 import androidx.compose.runtime.mutableStateOf
 import data.db.models.Person
-import data.db.tables.Persons
-import data.db.tables.Persons.toPerson
+import data.db.tables.PersonsTable
+import data.db.tables.PersonsTable.toPerson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,8 +27,8 @@ class MainViewModel {
     fun refresh() {
         coroutineScope.launch {
             _persons.emit(transaction {
-                Persons.selectAll().andWhere {
-                    Persons.name.like("%${requestText.value}%")
+                PersonsTable.selectAll().andWhere {
+                    PersonsTable.name.like("%${requestText.value}%")
                 }.map(::toPerson)
             })
 

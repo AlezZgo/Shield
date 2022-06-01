@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import data.db.tables.Addresses
-import data.db.tables.Persons
+import data.db.tables.AddressesTable
+import data.db.tables.PersonsTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.TransactionManager
@@ -32,7 +32,7 @@ fun App() {
     TransactionManager.defaultDatabase = db
 
     transaction{
-        SchemaUtils.create(Addresses, Persons)
+        SchemaUtils.create(AddressesTable, PersonsTable)
     }
 
 //    transaction {

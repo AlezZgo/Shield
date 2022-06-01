@@ -23,16 +23,16 @@ fun DescriptionScreen(
             common.paramList.forEach{ params->
                 Text(text = params.name, fontWeight = FontWeight.Bold)
                 params.params.forEach{ param->
-                    if(param.){
-                        Text(modifier = Modifier.fillMaxWidth(), onClick = {
-                            createWindow{
-                                param.full()
-                            }
-                        }, text = "")
-                    }
-                    if(param.isImage){
-
-                    }
+//                    if(param.){
+//                        Text(modifier = Modifier.fillMaxWidth(), onClick = {
+//                            createWindow{
+//                                param.full()
+//                            }
+//                        }, text = "")
+//                    }
+//                    if(param.isImage){
+//
+//                    }
                 }
 
             }
