@@ -1,9 +1,11 @@
 package ui.screens.main
 
 import androidx.compose.runtime.mutableStateOf
-import data.db.models.Person
+import data.db.models.UIModel
+import data.db.tables.AddressesTable
 import data.db.tables.PersonsTable
-import data.db.tables.PersonsTable.toPerson
+
+import data.db.tables.RelativesTable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,8 +20,8 @@ class MainViewModel(val tables: List<Table>) {
 
     var currentTable = MutableStateFlow(tables.first())
 
-    private val _persons = MutableStateFlow(emptyList<Person>())
-    val persons get() = _persons.asStateFlow()
+    private val _commons = MutableStateFlow(emptyList<UIModel>())
+    val commons get() = _commons.asStateFlow()
 
     val requestText = mutableStateOf("")
 
@@ -29,10 +31,28 @@ class MainViewModel(val tables: List<Table>) {
 
     fun refresh() {
         coroutineScope.launch {
-            _persons.emit(transaction {
-                PersonsTable.selectAll().andWhere {
-                    PersonsTable.name.like("%${requestText.value}%")
-                }.map(::toPerson)
+            _commons.emit(transaction {
+                when (currentTable.value) {
+                    is PersonsTable -> {
+                        PersonsTable.selectAll().andWhere {
+                            PersonsTable.name.like("%${requestText.value}%")
+                        }.map(PersonsTable::toUI)
+                    }
+                    is AddressesTable-> {
+                        AddressesTable.selectAll().andWhere {
+                            AddressesTable.address.like("%${requestText.value}%")
+                        }.map(AddressesTable::toUI)
+                    }
+                    is RelativesTable -> {
+                        RelativesTable.selectAll().andWhere {
+                            RelativesTable.name.like("%${requestText.value}%")
+                        }.map(RelativesTable::toUI)
+                    }
+                    else -> {
+                        emptyList()
+                    }
+                }
+
             })
 
         }

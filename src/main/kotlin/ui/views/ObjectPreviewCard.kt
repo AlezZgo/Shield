@@ -8,13 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import data.db.models.UIModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ObjectPreviewCard(
-    title: String,
-    content: String,
-    listOfStringPairs: List<Pair<String, String>>,
+    model: UIModel,
     onClick: () -> Unit
 ) {
     Card(
@@ -24,14 +23,11 @@ fun ObjectPreviewCard(
 
     ) {
         Column {
-            listOfStringPairs.take(2).forEach {
                 Row(modifier = Modifier.padding(12.dp) ) {
-                    Text(text = it.first, fontWeight = FontWeight.Bold)
+                    Text(text = model.params.first().first, fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = it.second)
+                    Text(text = model.params.first().second)
                 }
-            }
-
         }
 
     }

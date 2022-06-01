@@ -1,6 +1,5 @@
 package ui.screens.main
 
-import App
 import Screen
 import ui.views.Spinner
 import androidx.compose.foundation.VerticalScrollbar
@@ -17,12 +16,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import data.db.models.ListOfStringPairs
-import data.db.models.Person
 import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
 
@@ -33,7 +28,7 @@ fun MainScreen(
 ) {
 
     var text by remember { viewModel.requestText }
-    val persons = viewModel.persons.collectAsState()
+    val commons = viewModel.commons.collectAsState()
 
     var expanded by remember { viewModel.expanded }
 
@@ -94,8 +89,8 @@ fun MainScreen(
                     modifier = Modifier,
                     state
                 ) {
-                    items(persons.value) { person ->
-                        ObjectPreviewCard(person.name, person.age.toString(), listOf("ha" to "ma")){
+                    items(commons.value) { common ->
+                        ObjectPreviewCard(common){
                             navController.navigate(Screen.DescriptionScreen.name)
                         }
                         Spacer(modifier = Modifier.height(5.dp))

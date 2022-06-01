@@ -11,6 +11,7 @@ import data.db.tables.RelativesTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.navigation.NavController
@@ -42,16 +43,34 @@ fun App() {
 
     }
 
-//    transaction {
+    transaction(db) {
 //        for (i in 0..100){
-//            Persons.insert {
-//                it[name] = "$i person "
-//                it[age] = 36
-//                it[weight] = 100f
-//                it[address] = 1212
+//            AddressesTable.insert {
+//                it[address] = "$i Ватутина> "
 //            }
 //        }
-//    }
+//        for (i in 0..100){
+//            PersonsTable.insert {
+//                it[name] = "$i Михаил Задорнович "
+//                it[age] = 2
+//                it[weight] = 3f
+//                it[address] = 2
+//            }
+//        }
+//        for (i in 0..100){
+//            RelativesTable.insert {
+//                it[name] = "$i Буба "
+//                it[relationDegree] = "$i Сын "
+//                it[employment] = "$i Школьник "
+//                it[birthDay] = "$i 23.01.2010 "
+//                it[birthPlace] = "$i Москва "
+//                it[birthCountry] = "$i Россия "
+//                it[nationality] = "$i Русский "
+//                it[citizen] = "$i РФ "
+//                it[admissionForm] = 2
+//            }
+//        }
+    }
 
     val navController by rememberNavController(Screen.MainScreen.name)
 
