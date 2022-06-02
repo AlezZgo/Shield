@@ -74,6 +74,7 @@ fun MainScreen(
                                         onValueChange = { newValue->
                                             field = newValue
                                             viewModel.filters.value.add(
+                                                //todo Зарефакторить, как вариант экстеншн для column
                                                 when(column.columnType){
                                                     is StringColumnType -> StringFilterParam(column.name,column as Column<String>,newValue)
                                                     is IntegerColumnType -> IntFilterParam(column.name,column as Column<Int>,newValue.toInt())
