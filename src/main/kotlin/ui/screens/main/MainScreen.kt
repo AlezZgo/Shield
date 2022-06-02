@@ -16,11 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.sun.jdi.IntegerType
+import data.db.models.params.FloatFilterParam
+import data.db.models.params.IntFilterParam
+import data.db.models.params.StringFilterParam
+import data.db.models.params.core.FilterParam
 import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.FloatColumnType
+import org.jetbrains.exposed.sql.IntegerColumnType
+import org.jetbrains.exposed.sql.StringColumnType
 import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
+import java.lang.RuntimeException
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -58,12 +67,20 @@ fun MainScreen(
                         LazyVerticalGrid(
                             cells = GridCells.Fixed(4)
                         ) {
-                            itemsIndexed(currentTable.value.columns.drop(1)) { index,column ->
+                            items(currentTable.value.columns.drop(1)) { column ->
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    var field= filters.value[index].second
+                                    var field by remember { mutableStateOf("") }
                                     TextField(value = field,
-                                        onValueChange = {
-                                            viewModel.filters.value[index] = (column to field)
+                                        onValueChange = { newValue->
+                                            field = newValue
+                                            viewModel.filters.value.add(
+                                                when(column.columnType){
+                                                    is StringColumnType -> StringFilterParam(column.name,column as Column<String>,newValue)
+                                                    is IntegerColumnType -> IntFilterParam(column.name,column as Column<Int>,newValue.toInt())
+                                                    is FloatColumnType -> FloatFilterParam(column.name,column as Column<Float>,newValue.toFloat())
+                                                    else -> throw RuntimeException("Неверный тип данных")
+                                                }
+                                            )
                                         },
                                         label = { Text(column.name) })
                                 }

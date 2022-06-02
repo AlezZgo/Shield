@@ -1,10 +1,10 @@
 package data.db.tables
 
 import data.db.models.UIModel
+import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -23,11 +23,14 @@ object PersonsTable : IntIdTable(), UITable {
         )
     )
 
-    override suspend fun selected(requestText: String): List<UIModel> {
+    override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
-            selectAll().andWhere {
-                name.like("%${requestText}%")
-            }.map(::toUI)
+            val all = selectAll()
+            params.forEach { param->
+                param.like(all)
+            }
+            return@transaction all.map(::toUI)
         }
     }
+
 }

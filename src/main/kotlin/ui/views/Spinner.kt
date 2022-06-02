@@ -41,7 +41,6 @@ fun Spinner(viewModel: MainViewModel) {
                     DropdownMenuItem(onClick = {
                         expanded = false
                         currentTable.value = table
-                        viewModel.initFilters(table.columns)
                     }) {
                         Text(text = table.tableName)
                     }
