@@ -33,7 +33,7 @@ fun Spinner(viewModel: MainViewModel) {
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ) { // Anchor view
+        ) {
             Text(text = viewModel.currentTable.value.tableName, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
 
@@ -43,6 +43,7 @@ fun Spinner(viewModel: MainViewModel) {
                 viewModel.tables.forEach { table ->
                     DropdownMenuItem(onClick = {
                         expanded = false
+                        viewModel.initStartFiltersState(table.columns)
                         currentTable.value = table
                     }) {
                         Text(text = table.tableName)

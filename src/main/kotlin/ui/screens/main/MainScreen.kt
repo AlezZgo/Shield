@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
@@ -27,10 +28,9 @@ fun MainScreen(
     viewModel: MainViewModel,
 ) {
 
-    var text by remember { viewModel.requestText }
     val commons = viewModel.commons.collectAsState()
+    val filters = viewModel.filters.collectAsState()
     val currentTable = viewModel.currentTable.collectAsState()
-
     Row(
         modifier = Modifier.background(Color.LightGray)
     ) {
@@ -50,23 +50,28 @@ fun MainScreen(
                 .weight(4f)
                 .fillMaxHeight()
         ) {
-            Column{
+            Column {
                 Card(modifier = Modifier.padding(top = 4.dp, end = 4.dp)) {
                     Column {
-                        LazyVerticalGrid(
-                            cells = GridCells.Fixed(4)
-                        ) {
-                            items(currentTable.value.columns.drop(1)) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    var field by remember{ mutableStateOf("") }
-                                    TextField(value = field,
-                                        onValueChange = {
-                                            field = it
-                                        },
-                                        label = { Text(it.name) })
+                        currentTable.value.apply {
+                            LazyVerticalGrid(
+                                cells = GridCells.Fixed(4)
+                            ) {
+                                items(filters.value.toList()) { filter ->
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        TextField(value = filter.second,
+                                            singleLine = true,
+                                            maxLines = 1,
+                                            onValueChange = { textField ->
+//                                            viewModel.setFilterState(filter.first to textField)
+                                            },
+                                            label = { Text(filter.first.name) })
+                                    }
                                 }
                             }
                         }
+
+
 
 /*
 //                    OutlinedTextField(modifier = Modifier
@@ -135,7 +140,6 @@ fun MainScreen(
 
 
         }
-
 
 
     }
