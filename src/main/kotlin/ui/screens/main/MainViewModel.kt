@@ -1,9 +1,7 @@
 package ui.screens.main
 
-import androidx.compose.runtime.mutableStateOf
 import data.db.models.UIModel
 import data.db.models.params.core.FilterParam
-
 import data.db.tables.UITable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

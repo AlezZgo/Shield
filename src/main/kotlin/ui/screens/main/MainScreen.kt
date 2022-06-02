@@ -18,20 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import data.db.models.params.FloatFilterParam
-import data.db.models.params.IntFilterParam
-import data.db.models.params.StringFilterParam
 import extensions.asFilterParam
-import extensions.keyBoardTypeType
-import kotlinx.coroutines.flow.asStateFlow
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.FloatColumnType
-import org.jetbrains.exposed.sql.IntegerColumnType
-import org.jetbrains.exposed.sql.StringColumnType
 import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
-import java.lang.RuntimeException
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -40,7 +30,6 @@ fun MainScreen(
     viewModel: MainViewModel,
 ) {
 
-    var filters = viewModel.filters.asStateFlow()
     val commons = viewModel.commons.collectAsState()
     val currentTable = viewModel.currentTable.collectAsState()
 
@@ -63,7 +52,7 @@ fun MainScreen(
                 .weight(4f)
                 .fillMaxHeight()
         ) {
-            Column{
+            Column {
                 Card(modifier = Modifier.padding(top = 4.dp, end = 4.dp)) {
                     Column {
                         LazyVerticalGrid(
@@ -75,7 +64,7 @@ fun MainScreen(
                                     TextField(value = field,
                                         //todo: не работает тк через field меняется...
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        onValueChange = { newValue->
+                                        onValueChange = { newValue ->
                                             field = newValue
                                             viewModel.filters.value.add(column.asFilterParam(newValue))
                                         },
@@ -83,35 +72,6 @@ fun MainScreen(
                                 }
                             }
                         }
-
-/*
-//                    OutlinedTextField(modifier = Modifier
-//                        .padding(4.dp),
-//                        singleLine = true,
-//                        value = text,
-//                        onValueChange = { newText -> if (newText.length <= 50) text = newText })
-
-//                    CustomTextField(
-//                        leadingIcon = {
-//                            Icon(
-//                                Icons.Filled.Search,
-//                                null,
-//                                tint = LocalContentColor.current.copy(alpha = 0.3f)
-//                            )
-//                        },
-//                        trailingIcon = null,
-//                        modifier = Modifier
-//                            .background(
-//                                MaterialTheme.colors.surface,
-//                                RoundedCornerShape(percent = 50)
-//                            )
-//                            .padding(4.dp)
-//                            .height(40.dp),
-//                        fontSize = 10.sp,
-//                        placeholderText = "Поиск"
-//                    )
-*/
-
                         Button(modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
@@ -152,7 +112,6 @@ fun MainScreen(
 
 
         }
-
 
 
     }
