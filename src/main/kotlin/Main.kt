@@ -34,7 +34,7 @@ fun App() {
 
     TransactionManager.defaultDatabase = db
 
-    val tables = listOf<Table>(AddressesTable, PersonsTable,RelativesTable)
+    val tables = listOf<Table>(RelativesTable,AddressesTable, PersonsTable,)
 
 //    transaction{
 //        tables.forEach {

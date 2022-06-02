@@ -32,7 +32,6 @@ object RelativesTable : IntIdTable(),UITable{
 
     override suspend fun selected(requestText: String): List<UIModel> {
         return transaction {
-            addLogger(StdOutSqlLogger)
             selectAll().andWhere {
                 name.like("%${requestText}%")
             }.map(::toUI)

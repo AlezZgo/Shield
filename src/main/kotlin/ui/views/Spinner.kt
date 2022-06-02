@@ -22,7 +22,6 @@ import ui.screens.main.MainViewModel
 fun Spinner(viewModel: MainViewModel) {
 
     var expanded by remember { mutableStateOf(false) }
-
     val currentTable by remember { mutableStateOf(viewModel.currentTable) }
 
     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
