@@ -36,12 +36,12 @@ fun App() {
 
     val tables = listOf<Table>(AddressesTable, PersonsTable,RelativesTable)
 
-    transaction{
-        tables.forEach {
-            SchemaUtils.create(it)
-        }
-
-    }
+//    transaction{
+//        tables.forEach {
+//            SchemaUtils.create(it)
+//        }
+//
+//    }
 
     transaction(db) {
 //        for (i in 0..100){

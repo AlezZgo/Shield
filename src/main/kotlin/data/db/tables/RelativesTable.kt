@@ -3,10 +3,11 @@ package data.db.tables
 import data.db.models.Relative
 import data.db.models.UIModel
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.jetbrains.exposed.sql.transactions.transaction
 
-object RelativesTable : IntIdTable(),UITable {
+object RelativesTable : IntIdTable(),UITable{
     val name: Column<String> = varchar("name", 20)
     val relationDegree: Column<String> = varchar("relationDegree", 30)
     val employment: Column<String> = varchar("employment", 40)
@@ -28,5 +29,15 @@ object RelativesTable : IntIdTable(),UITable {
         "Гражданство:" to row[citizen],
         "Форма допуска:" to row[admissionForm].toString(),
     ))
+
+    override suspend fun selected(requestText: String): List<UIModel> {
+        return transaction {
+            addLogger(StdOutSqlLogger)
+            selectAll().andWhere {
+                name.like("%${requestText}%")
+            }.map(::toUI)
+        }
+    }
+
 
 }
