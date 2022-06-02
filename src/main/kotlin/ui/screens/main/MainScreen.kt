@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -15,12 +16,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.sun.jdi.IntegerType
 import data.db.models.params.FloatFilterParam
 import data.db.models.params.IntFilterParam
 import data.db.models.params.StringFilterParam
-import data.db.models.params.core.FilterParam
+import extensions.asFilterParam
+import extensions.keyBoardTypeType
 import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.FloatColumnType
@@ -71,17 +73,11 @@ fun MainScreen(
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     var field by remember { mutableStateOf("") }
                                     TextField(value = field,
+                                        //todo: не работает тк через field меняется...
+                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                         onValueChange = { newValue->
                                             field = newValue
-                                            viewModel.filters.value.add(
-                                                //todo Зарефакторить, как вариант экстеншн для column
-                                                when(column.columnType){
-                                                    is StringColumnType -> StringFilterParam(column.name,column as Column<String>,newValue)
-                                                    is IntegerColumnType -> IntFilterParam(column.name,column as Column<Int>,newValue.toInt())
-                                                    is FloatColumnType -> FloatFilterParam(column.name,column as Column<Float>,newValue.toFloat())
-                                                    else -> throw RuntimeException("Неверный тип данных")
-                                                }
-                                            )
+                                            viewModel.filters.value.add(column.asFilterParam(newValue))
                                         },
                                         label = { Text(column.name) })
                                 }
