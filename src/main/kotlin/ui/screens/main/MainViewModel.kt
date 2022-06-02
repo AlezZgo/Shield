@@ -2,6 +2,7 @@ package ui.screens.main
 
 import androidx.compose.runtime.mutableStateOf
 import data.db.models.UIModel
+
 import data.db.tables.UITable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ class MainViewModel(val tables: List<Table>) {
 
     var currentTable = MutableStateFlow(tables.first())
 
-    var filters = MutableStateFlow(mutableListOf<Pair<Column<*>, String>>())
+    var filters = MutableStateFlow(mutableListOf<Pair< Column<*>,String>>())
 
     private val _commons = MutableStateFlow(emptyList<UIModel>())
     val commons get() = _commons.asStateFlow()
@@ -23,6 +24,10 @@ class MainViewModel(val tables: List<Table>) {
     val requestText = mutableStateOf("")
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    init {
+        initFilters(currentTable.value.columns)
+    }
 
     fun refresh() {
         coroutineScope.launch {
@@ -32,32 +37,12 @@ class MainViewModel(val tables: List<Table>) {
         }
     }
 
-    fun initStartFiltersState(columns: List<Column<*>>) {
-        coroutineScope.launch {
-            val newFilters = mutableListOf<Pair<Column<*>, String>>()
-
-            columns.forEach { column ->
-                newFilters.add(column to "")
-            }
-
-            filters.emit(
-                newFilters
-            )
-
+    fun initFilters(columns: List<Column<*>>) {
+        filters.value.clear()
+        columns.forEach { column->
+            filters.value.add(column to "")
         }
     }
-
-    fun setFilterState(newState: Pair<Column<*>, String>) {
-        val newList = mutableListOf<Pair<Column<*>, String>>()
-        newList.replaceAll {
-            if (it.first == newState.first) newState else it
-        }
-
-        coroutineScope.launch {
-            filters.emit(newList)
-        }
-    }
-
 
 }
 

@@ -13,9 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import org.jetbrains.exposed.sql.Table
 import ui.screens.main.MainViewModel
 
 @Composable
@@ -33,7 +30,7 @@ fun Spinner(viewModel: MainViewModel) {
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ) {
+        ) { // Anchor view
             Text(text = viewModel.currentTable.value.tableName, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
 
@@ -43,8 +40,8 @@ fun Spinner(viewModel: MainViewModel) {
                 viewModel.tables.forEach { table ->
                     DropdownMenuItem(onClick = {
                         expanded = false
-                        viewModel.initStartFiltersState(table.columns)
                         currentTable.value = table
+                        viewModel.initFilters(table.columns)
                     }) {
                         Text(text = table.tableName)
                     }
