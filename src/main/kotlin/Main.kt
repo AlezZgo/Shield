@@ -1,8 +1,10 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import data.db.tables.AddressesTable
@@ -11,14 +13,8 @@ import data.db.tables.RelativesTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import ui.navigation.NavController
-import ui.navigation.NavigationHost
-import ui.navigation.composable
-import ui.navigation.rememberNavController
-import ui.screens.description.DescriptionScreen
 import ui.screens.main.MainScreen
 import ui.screens.main.MainViewModel
 import java.sql.Connection
@@ -26,6 +22,19 @@ import java.sql.Connection
 @Composable
 @Preview
 fun App() {
+    val tables = listOf<Table>(RelativesTable, AddressesTable, PersonsTable)
+
+    initDB(tables)
+
+    val viewModel = remember { MainViewModel(tables) }
+
+    MaterialTheme {
+        MainScreen(viewModel)
+    }
+
+}
+
+private fun initDB(tables: List<Table>) {
     val db = Database.connect("jdbc:h2:./db", "org.h2.Driver")
 
     TransactionManager.manager.defaultIsolationLevel =
@@ -33,7 +42,7 @@ fun App() {
 
     TransactionManager.defaultDatabase = db
 
-    val tables = listOf<Table>(RelativesTable, AddressesTable, PersonsTable)
+
 
     transaction {
         tables.forEach {
@@ -126,20 +135,17 @@ fun App() {
 
 //        }
     }
-
-    val navController by rememberNavController(Screen.MainScreen.name)
-
-    val viewModel = remember { MainViewModel(tables) }
-
-    MaterialTheme {
-        MainScreen(navController, viewModel)
-        CustomNavigationHost(navController, viewModel)
-    }
-
 }
 
-
 fun main() = application {
+
+    val applicationState = remember { MyApplicationState() }
+
+    for (window in applicationState.windows) {
+        key(window) {
+            MyWindow(window)
+        }
+    }
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -149,24 +155,41 @@ fun main() = application {
     }
 }
 
-
-enum class Screen {
-    MainScreen,
-    DescriptionScreen,
-}
-
 @Composable
-fun CustomNavigationHost(
-    navController: NavController,
-    viewModel: MainViewModel
-) {
-    NavigationHost(navController) {
-        composable(Screen.MainScreen.name) {
-            MainScreen(navController, viewModel)
-        }
+private fun ApplicationScope.MyWindow(
+    state: MyWindowState
+) = Window(onCloseRequest = state::close, title = state.title) {
 
-        composable(Screen.DescriptionScreen.name) {
-            DescriptionScreen(navController)
-        }
-    }.build()
 }
+
+private class MyWindowState(
+    val title: String,
+    val openNewWindow: () -> Unit,
+    val exit: () -> Unit,
+    private val close: (MyWindowState) -> Unit
+) {
+    fun close() = close(this)
+}
+
+private class MyApplicationState {
+    val windows = mutableStateListOf<MyWindowState>()
+
+    fun openNewWindow() {
+        windows += MyWindowState("Window ${windows.size}")
+    }
+
+    fun exit() {
+        windows.clear()
+    }
+
+    private fun MyWindowState(
+        title: String
+    ) = MyWindowState(
+        title,
+        openNewWindow = ::openNewWindow,
+        exit = ::exit,
+        windows::remove
+    )
+}
+
+

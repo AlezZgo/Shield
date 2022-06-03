@@ -1,6 +1,5 @@
 package ui.screens.main
 
-import Screen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
@@ -19,14 +18,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import extensions.asFilterParam
-import ui.navigation.NavController
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
-    navController: NavController,
     viewModel: MainViewModel,
 ) {
 
@@ -66,10 +63,12 @@ fun MainScreen(
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                         onValueChange = { newValue ->
                                             field = newValue
-                                            viewModel.filters.value.removeIf{
+                                            viewModel.filters.value.removeIf {
                                                 it.column == column
                                             }
-                                            viewModel.filters.value.add(column.asFilterParam(newValue))
+                                            if(newValue.isNotEmpty()){
+                                                viewModel.filters.value.add(column.asFilterParam(newValue))
+                                            }
                                         },
                                         label = { Text(column.name) })
                                 }
@@ -78,7 +77,9 @@ fun MainScreen(
                         Button(modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp),
-                            onClick = { viewModel.refresh() }) {
+                            onClick = {
+                                viewModel.refresh()
+                            }) {
                             Text("Поиск")
                         }
 
@@ -98,7 +99,7 @@ fun MainScreen(
                     ) {
                         items(commons.value) { common ->
                             ObjectPreviewCard(common) {
-                                navController.navigate(Screen.DescriptionScreen.name)
+
                             }
                             Spacer(modifier = Modifier.height(5.dp))
                         }
@@ -121,3 +122,5 @@ fun MainScreen(
 
 
 }
+
+

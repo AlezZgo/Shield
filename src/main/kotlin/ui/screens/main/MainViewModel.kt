@@ -21,6 +21,10 @@ class MainViewModel(val tables: List<Table>) {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
+    init {
+        refresh()
+    }
+
     fun refresh() {
         coroutineScope.launch {
             _commons.emit(
