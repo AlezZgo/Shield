@@ -12,9 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import data.db.tables.CustomTable
 import extensions.asFilterParam
 import extensions.screens.description.DescriptionScreen
-import extensions.screens.description.openDescriptionWindow
+import extensions.screens.openDescriptionWindow
 import org.jetbrains.exposed.sql.FloatColumnType
 import org.jetbrains.exposed.sql.IntegerColumnType
 import org.jetbrains.exposed.sql.StringColumnType
@@ -101,7 +102,7 @@ fun MainScreen(
                         items(commons.value) { common ->
                             ObjectPreviewCard(common) {
                                 openDescriptionWindow(common.params.first().first) {
-                                    DescriptionScreen(common)
+                                    DescriptionScreen(common,currentTable.value as CustomTable,viewModel)
                                 }
                             }
                             Spacer(modifier = Modifier.height(5.dp))

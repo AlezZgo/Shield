@@ -1,7 +1,7 @@
 package data.db.models.params.core
 
-import org.jetbrains.exposed.sql.Query
+import ui.views.UIModel
 
 interface Delete {
-    fun delete(query: Query): Query
+    suspend fun delete(model: UIModel)
 }

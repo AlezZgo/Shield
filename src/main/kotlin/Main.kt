@@ -15,6 +15,7 @@ import extensions.screens.main.MainViewModel
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.sql.Connection
@@ -122,15 +123,15 @@ private fun initDB(tables: List<Table>) {
 //
 //
 //        RelativesTable.insert {
-//            it[name] = "Александр Максимов"
+//            it[name] = "Оганнес Асатрян"
 //            it[relationDegree] = "Отец"
-//            it[employment] = "Строительный магазин"
-//            it[birthDay] = "25.01.2010"
-//            it[birthPlace] = "Москва"
-//            it[birthCountry] = "Россия"
-//            it[nationality] = "Русский"
-//            it[citizen] = "РФ"
-//            it[admissionForm] = 3
+//            it[employment] = "Подрядчик"
+//            it[birthDay] = "25.01.1992"
+//            it[birthPlace] = "Ереван"
+//            it[birthCountry] = "Армения"
+//            it[nationality] = "Армянин"
+//            it[citizen] = "РФ,Армения"
+//            it[admissionForm] = 0
 //        }
 
 //        }

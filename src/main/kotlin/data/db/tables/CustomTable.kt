@@ -1,8 +1,10 @@
 package data.db.tables
 
-import data.db.models.UIModel
+import data.db.models.params.core.Delete
+import ui.views.UIModel
 import org.jetbrains.exposed.sql.ResultRow
 
-interface UITable : Filter {
+interface CustomTable : Filter,Delete {
     fun toUI(row: ResultRow): UIModel
+
 }

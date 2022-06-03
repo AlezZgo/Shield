@@ -1,8 +1,9 @@
-package extensions.screens.description
+package extensions.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.awt.ComposeWindow
 import java.awt.Dimension
+import java.awt.SystemColor.window
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
@@ -15,5 +16,6 @@ fun openDescriptionWindow(titleName: String,content: @Composable () -> Unit) = S
             content.invoke()
         }
         isVisible = true
+       
     }
 }

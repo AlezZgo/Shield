@@ -1,8 +1,8 @@
 package extensions.screens.main
 
-import data.db.models.UIModel
+import ui.views.UIModel
 import data.db.models.params.core.FilterParam
-import data.db.tables.UITable
+import data.db.tables.CustomTable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,10 +28,17 @@ class MainViewModel(val tables: List<Table>) {
     fun refresh() {
         coroutineScope.launch {
             _commons.emit(
-                (currentTable.value as UITable).filtered(filters.value).sortedBy {
+                (currentTable.value as CustomTable).filtered(filters.value).sortedBy {
                     it.params.first().second
                 }
             )
+        }
+    }
+
+    fun delete(model: UIModel, table: CustomTable) {
+        coroutineScope.launch {
+            table.delete(model)
+            refresh()
         }
     }
 

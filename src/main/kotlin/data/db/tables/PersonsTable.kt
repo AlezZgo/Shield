@@ -1,14 +1,15 @@
 package data.db.tables
 
-import data.db.models.UIModel
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import ui.views.UIModel
 
-object PersonsTable : IntIdTable(), UITable {
+object PersonsTable : IntIdTable(), CustomTable {
     val name: Column<String> = varchar("name", 100)
     val age: Column<Int> = integer("age")
     val weight: Column<Float> = float("weight")
@@ -23,6 +24,8 @@ object PersonsTable : IntIdTable(), UITable {
         )
     )
 
+
+
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
             val selected = selectAll()
@@ -32,5 +35,14 @@ object PersonsTable : IntIdTable(), UITable {
             return@transaction selected.map(::toUI)
         }
     }
+
+    override suspend fun delete(model: UIModel) {
+        return transaction {
+            deleteWhere(1) {
+                name eq model.params.first().second
+            }
+        }
+    }
+
 
 }
