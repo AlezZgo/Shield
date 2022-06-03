@@ -3,11 +3,8 @@ package data.db.tables
 import ui.views.UIModel
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object RelativesTable : IntIdTable(), CustomTable {
@@ -49,6 +46,24 @@ object RelativesTable : IntIdTable(), CustomTable {
         return transaction {
             deleteWhere(1) {
                 name eq model.params.first().second
+            }
+        }
+    }
+
+    override suspend fun edit(oldModel: UIModel, newModel: UIModel) {
+        transaction {
+            update({
+                name eq oldModel.params.first().second
+            }) {
+                it[name] = newModel.params[0].second
+                it[relationDegree] = newModel.params[1].second
+                it[employment] = newModel.params[2].second
+                it[birthDay] = newModel.params[3].second
+                it[birthPlace] = newModel.params[1].second
+                it[birthCountry] = newModel.params[2].second
+                it[nationality] = newModel.params[3].second
+                it[citizen] = newModel.params[2].second
+                it[admissionForm] = newModel.params[3].second.toInt()
             }
         }
     }

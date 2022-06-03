@@ -2,10 +2,8 @@ package data.db.tables
 
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.views.UIModel
 
@@ -40,6 +38,19 @@ object PersonsTable : IntIdTable(), CustomTable {
         return transaction {
             deleteWhere(1) {
                 name eq model.params.first().second
+            }
+        }
+    }
+
+    override suspend fun edit(oldModel: UIModel, newModel: UIModel) {
+        transaction {
+            update({
+                name eq oldModel.params.first().second
+            }) {
+                it[name] = newModel.params[0].second
+                it[age] = newModel.params[1].second.toInt()
+                it[weight] = newModel.params[2].second.toFloat()
+                it[address] = newModel.params[3].second.toInt()
             }
         }
     }

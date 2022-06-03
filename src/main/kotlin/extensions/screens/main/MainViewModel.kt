@@ -42,11 +42,13 @@ class MainViewModel(val tables: List<Table>) {
         }
     }
 
-//    fun delete(params: MutableSet<FilterParam<*>>) {
-//        coroutineScope.launch {
-//            (currentTable.value as UITable).remove(params)
-//        }
-//    }
+    fun edit(oldModel: UIModel,newModel: UIModel, table: CustomTable) {
+        coroutineScope.launch {
+            table.edit(oldModel,newModel)
+            refresh()
+        }
+    }
+
 
 }
 

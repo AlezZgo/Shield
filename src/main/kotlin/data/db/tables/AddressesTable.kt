@@ -1,14 +1,10 @@
 package data.db.tables
 
-import ui.views.UIModel
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import ui.views.UIModel
 
 object AddressesTable : IntIdTable(), CustomTable {
     val address: Column<String> = varchar("address", 100)
@@ -30,9 +26,19 @@ object AddressesTable : IntIdTable(), CustomTable {
     }
 
     override suspend fun delete(model: UIModel) {
-        return transaction {
+        transaction {
             deleteWhere(1) {
                 address eq model.params.first().second
+            }
+        }
+    }
+
+    override suspend fun edit(oldModel: UIModel, newModel: UIModel) {
+        transaction {
+            update({
+                address eq oldModel.params.first().second
+            }) {
+                it[address] = newModel.params.first().second
             }
         }
     }

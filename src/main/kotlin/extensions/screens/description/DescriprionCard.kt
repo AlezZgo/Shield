@@ -1,7 +1,11 @@
 package extensions.screens.description
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,47 +18,73 @@ import ui.views.UIModel
 
 
 @Composable
-fun DescriptionScreen(model: UIModel,table: CustomTable, viewModel: MainViewModel, ) {
+fun DescriptionScreen(model: UIModel, table: CustomTable, viewModel: MainViewModel) {
 
     var isEditMode by remember { mutableStateOf(false) }
+    var newModel by remember {mutableStateOf(model.params.toMutableList())}
 
     Card(modifier = Modifier.fillMaxSize().padding(4.dp)) {
         Column {
-            Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
-                Button(modifier = Modifier.padding(4.dp).weight(1f), onClick = {
-                    isEditMode = !isEditMode
-                }){
-                    Text(text = "Изменить")
+            if(isEditMode){
+                Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+                    Button(modifier = Modifier.padding(4.dp).weight(1f), onClick = {
+                        viewModel.edit(model,UIModel(newModel.toList()),table)
+                        isEditMode = false
+                    }) {
+                        Text(text = "Сохранить")
+                    }
+                    OutlinedButton(modifier = Modifier.padding(4.dp).weight(1f),
+                        border= BorderStroke(1.dp, Color.Blue),
+                        onClick = {
+                            isEditMode = false
+                        }) {
+                        Text(text = "Отмена")
+                    }
                 }
-                Button(modifier = Modifier.padding(4.dp).weight(1f),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White),
-                    onClick = {
-                        viewModel.delete(model,table)
-                }){
-                    Text(text = "Удалить")
+            }else{
+                Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+                    Button(modifier = Modifier.padding(4.dp).weight(1f), onClick = {
+                        isEditMode = !isEditMode
+                    }) {
+                        Text(text = "Изменить")
+                    }
+                    Button(modifier = Modifier.padding(4.dp).weight(1f),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red, contentColor = Color.White),
+                        onClick = {
+                            viewModel.delete(UIModel(newModel.toList()), table)
+                        }) {
+                        Text(text = "Удалить")
+                    }
                 }
             }
             Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth().padding(4.dp)
                 ) {
-                    items(model.params) { pair ->
+                    itemsIndexed(model.params) { index, pair ->
                         Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+
+                            var content by remember { mutableStateOf(pair.second) }
+
                             Text(
                                 text = pair.first,
                                 modifier = Modifier.fillMaxWidth().padding(4.dp),
                                 fontWeight = FontWeight.Bold
                             )
                             OutlinedTextField(
-                                value = pair.second,
+                                value = content,
                                 modifier = Modifier.fillMaxWidth().padding(4.dp),
                                 enabled = isEditMode,
-                                onValueChange = {})
+                                onValueChange = {
+                                    content = it
+                                    newModel[index] = pair.first to it
+                                })
                         }
                     }
                 }
             }
-        }
 
+
+        }
     }
 }
