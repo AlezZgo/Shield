@@ -139,14 +139,6 @@ private fun initDB(tables: List<Table>) {
 
 fun main() = application {
 
-    val applicationState = remember { MyApplicationState() }
-
-    for (window in applicationState.windows) {
-        key(window) {
-            MyWindow(window)
-        }
-    }
-
     Window(
         onCloseRequest = ::exitApplication,
         title = "Щит"
@@ -154,42 +146,4 @@ fun main() = application {
         App()
     }
 }
-
-@Composable
-private fun ApplicationScope.MyWindow(
-    state: MyWindowState
-) = Window(onCloseRequest = state::close, title = state.title) {
-
-}
-
-private class MyWindowState(
-    val title: String,
-    val openNewWindow: () -> Unit,
-    val exit: () -> Unit,
-    private val close: (MyWindowState) -> Unit
-) {
-    fun close() = close(this)
-}
-
-private class MyApplicationState {
-    val windows = mutableStateListOf<MyWindowState>()
-
-    fun openNewWindow() {
-        windows += MyWindowState("Window ${windows.size}")
-    }
-
-    fun exit() {
-        windows.clear()
-    }
-
-    private fun MyWindowState(
-        title: String
-    ) = MyWindowState(
-        title,
-        openNewWindow = ::openNewWindow,
-        exit = ::exit,
-        windows::remove
-    )
-}
-
 
