@@ -25,11 +25,12 @@ object PersonsTable : IntIdTable(), UITable {
 
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
-            val all = selectAll()
+            val selected = selectAll()
             params.forEach { param->
-                param.like(all)
+                param.like(selected)
             }
-            return@transaction all.map(::toUI)
+            val list = selected.map(::toUI)
+            return@transaction list
         }
     }
 

@@ -66,6 +66,7 @@ fun MainScreen(
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                         onValueChange = { newValue ->
                                             field = newValue
+                                            viewModel.filters.value.clear()
                                             viewModel.filters.value.add(column.asFilterParam(newValue))
                                         },
                                         label = { Text(column.name) })

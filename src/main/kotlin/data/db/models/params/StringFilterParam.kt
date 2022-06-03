@@ -12,7 +12,7 @@ data class StringFilterParam(
 ) : FilterParam<String> {
     override fun like(query: Query): Query {
         return query.andWhere {
-            column.like(param)
+            column.like("%$param%")
         }
     }
 
