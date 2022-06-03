@@ -24,10 +24,18 @@ class MainViewModel(val tables: List<Table>) {
     fun refresh() {
         coroutineScope.launch {
             _commons.emit(
-                (currentTable.value as UITable).filtered(filters.value)
+                (currentTable.value as UITable).filtered(filters.value).sortedBy {
+                    it.params.first().second
+                }
             )
         }
     }
+
+//    fun delete(params: MutableSet<FilterParam<*>>) {
+//        coroutineScope.launch {
+//            (currentTable.value as UITable).remove(params)
+//        }
+//    }
 
 }
 

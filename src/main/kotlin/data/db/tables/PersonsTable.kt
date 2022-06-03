@@ -29,8 +29,7 @@ object PersonsTable : IntIdTable(), UITable {
             params.forEach { param->
                 param.like(selected)
             }
-            val list = selected.map(::toUI)
-            return@transaction list
+            return@transaction selected.map(::toUI)
         }
     }
 

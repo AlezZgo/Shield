@@ -25,5 +25,15 @@ object AddressesTable : IntIdTable(),UITable {
         }
     }
 
+//    override suspend fun remove(params: MutableSet<FilterParam<*>>) {
+//        return transaction {
+//            val all = selectAll()
+//            params.forEach { param->
+//                param.like(all)
+//            }
+//            return@transaction all.map(::toUI)
+//        }
+//    }
+
 
 }

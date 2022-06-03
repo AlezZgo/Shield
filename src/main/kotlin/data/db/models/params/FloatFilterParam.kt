@@ -16,5 +16,9 @@ data class FloatFilterParam(
             column.eq(param)
         }
     }
+//
+//    override fun delete(query: Query): Query {
+//        TODO("Not yet implemented")
+//    }
 
 }

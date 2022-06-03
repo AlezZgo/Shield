@@ -16,4 +16,8 @@ data class IntFilterParam(
         }
     }
 
+//    override fun delete(query: Query): Query {
+//        TODO("Not yet implemented")
+//    }
+
 }

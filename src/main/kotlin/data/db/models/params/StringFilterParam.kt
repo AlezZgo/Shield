@@ -4,6 +4,8 @@ import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.andWhere
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.upperCase
 
 data class StringFilterParam(
     override val name: String,
@@ -12,9 +14,18 @@ data class StringFilterParam(
 ) : FilterParam<String> {
     override fun like(query: Query): Query {
         return query.andWhere {
-            column.like("%$param%")
+            column.upperCase().like("%${param.uppercase()}%")
         }
     }
+
+//    override fun delete(deleteBlock : ()-> Unit) {
+//        transaction {
+//            delete {
+//
+//            }
+//        }
+//        return
+//    }
 
 
 }

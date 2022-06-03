@@ -26,59 +26,114 @@ import java.sql.Connection
 @Composable
 @Preview
 fun App() {
-
-    val db = Database.connect("jdbc:sqlite:db/data.db", "org.sqlite.JDBC")
+    val db = Database.connect("jdbc:h2:./db", "org.h2.Driver")
 
     TransactionManager.manager.defaultIsolationLevel =
         Connection.TRANSACTION_SERIALIZABLE
 
     TransactionManager.defaultDatabase = db
 
-    val tables = listOf<Table>(RelativesTable,AddressesTable, PersonsTable,)
+    val tables = listOf<Table>(RelativesTable, AddressesTable, PersonsTable)
 
-//    transaction{
-//        tables.forEach {
-//            SchemaUtils.create(it)
-//        }
-//
-//    }
+    transaction {
+        tables.forEach {
+            SchemaUtils.create(it)
+        }
+
+    }
 
     transaction(db) {
-//        for (i in 0..100){
-//            AddressesTable.insert {
-//                it[address] = "$i Ватутина> "
-//            }
+//        AddressesTable.deleteWhere {
+//            column
 //        }
-//        for (i in 0..100){
-//            PersonsTable.insert {
-//                it[name] = "$i Михаил Задорнович "
-//                it[age] = 2
-//                it[weight] = 3f
-//                it[address] = 2
-//            }
+//        AddressesTable.insert {
+//            it[address] = "Бери стрит"
 //        }
-//        for (i in 0..100){
-//            RelativesTable.insert {
-//                it[name] = "$i Буба "
-//                it[relationDegree] = "$i Сын "
-//                it[employment] = "$i Школьник "
-//                it[birthDay] = "$i 23.01.2010 "
-//                it[birthPlace] = "$i Москва "
-//                it[birthCountry] = "$i Россия "
-//                it[nationality] = "$i Русский "
-//                it[citizen] = "$i РФ "
-//                it[admissionForm] = 2
-//            }
+//        AddressesTable.insert {
+//            it[address] = "Роялти Вей"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Плаза лейн"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Хоп вэй"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Бэкэр ров"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Квин лейн"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Виндмил роут"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Монумент стрит"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Голд Лэйн"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Джейд Пассадж"
+//        }
+//        AddressesTable.insert {
+//            it[address] = "Эмералд авеню"
+//        }
+
+//        PersonsTable.insert {
+//            it[name] = "Александр  Иванович "
+//            it[age] = 36
+//            it[weight] = 77f
+//            it[address] = 27
+//        }
+//        PersonsTable.insert {
+//            it[name] = "Максим  Витальевич "
+//            it[age] = 21
+//            it[weight] = 79f
+//            it[address] = 29
+//        }
+//        PersonsTable.insert {
+//            it[name] = "Александр  Иванович "
+//            it[age] = 36
+//            it[weight] = 77f
+//            it[address] = 27
+//        }
+////
+//        RelativesTable.insert {
+//            it[name] = "Иван Косыгин"
+//            it[relationDegree] = "Сын "
+//            it[employment] = "Магазин "
+//            it[birthDay] = "21.01.2010 "
+//            it[birthPlace] = "Москва "
+//            it[birthCountry] = "Россия "
+//            it[nationality] = "Русская "
+//            it[citizen] = "РФ "
+//            it[admissionForm] = 2
+//        }
+//
+//
+//        RelativesTable.insert {
+//            it[name] = "Александр Максимов"
+//            it[relationDegree] = "Отец"
+//            it[employment] = "Строительный магазин"
+//            it[birthDay] = "25.01.2010"
+//            it[birthPlace] = "Москва"
+//            it[birthCountry] = "Россия"
+//            it[nationality] = "Русский"
+//            it[citizen] = "РФ"
+//            it[admissionForm] = 3
+//        }
+
 //        }
     }
 
     val navController by rememberNavController(Screen.MainScreen.name)
 
-    val viewModel = remember{ MainViewModel(tables) }
+    val viewModel = remember { MainViewModel(tables) }
 
     MaterialTheme {
-        MainScreen(navController,viewModel)
-        CustomNavigationHost(navController,viewModel)
+        MainScreen(navController, viewModel)
+        CustomNavigationHost(navController, viewModel)
     }
 
 }

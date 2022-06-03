@@ -39,5 +39,17 @@ object RelativesTable : IntIdTable(),UITable{
         }
     }
 
+//    override suspend fun remove(params: MutableSet<FilterParam<*>>){
+//        return transaction {
+//            params.forEach { param->
+//                param.delete()
+//
+//            }
+//
+//            throw Exception()
+////            return@transaction all.map(::toUI)
+//        }
+//    }
+
 
 }
