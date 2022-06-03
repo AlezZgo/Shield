@@ -9,7 +9,7 @@ data class FloatFilterParam(
     override val name: String,
     override val column: Column<Float>,
     override val param: Float
-) : FilterParam<Float>{
+) : FilterParam<Float> {
 
     override fun like(query: Query): Query {
         return query.andWhere {

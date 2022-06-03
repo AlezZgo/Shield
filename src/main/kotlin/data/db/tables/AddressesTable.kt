@@ -8,17 +8,19 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object AddressesTable : IntIdTable(),UITable {
+object AddressesTable : IntIdTable(), UITable {
     val address: Column<String> = varchar("address", 100)
 
-    override fun toUI(row: ResultRow) = UIModel(listOf(
-        "Адрес" to row[address]
-    ))
+    override fun toUI(row: ResultRow) = UIModel(
+        listOf(
+            "Адрес" to row[address]
+        )
+    )
 
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
             val all = selectAll()
-            params.forEach { param->
+            params.forEach { param ->
                 param.like(all)
             }
             return@transaction all.map(::toUI)

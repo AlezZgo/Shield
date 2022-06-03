@@ -10,13 +10,13 @@ import androidx.compose.ui.window.application
 import data.db.tables.AddressesTable
 import data.db.tables.PersonsTable
 import data.db.tables.RelativesTable
+import extensions.screens.main.MainScreen
+import extensions.screens.main.MainViewModel
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import ui.screens.main.MainScreen
-import ui.screens.main.MainViewModel
 import java.sql.Connection
 
 @Composable

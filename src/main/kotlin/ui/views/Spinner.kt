@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.screens.main.MainViewModel
+import extensions.screens.main.MainViewModel
 
 @Composable
 fun Spinner(viewModel: MainViewModel) {
@@ -31,7 +31,11 @@ fun Spinner(viewModel: MainViewModel) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) { // Anchor view
-            Text(text = viewModel.currentTable.value.tableName, fontSize = 18.sp, modifier = Modifier.padding(end = 8.dp))
+            Text(
+                text = viewModel.currentTable.value.tableName,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(end = 8.dp)
+            )
             Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
 
             DropdownMenu(expanded = expanded, onDismissRequest = {

@@ -1,6 +1,5 @@
 package extensions
 
-import androidx.compose.ui.text.input.KeyboardType
 import data.db.models.params.FloatFilterParam
 import data.db.models.params.IntFilterParam
 import data.db.models.params.StringFilterParam

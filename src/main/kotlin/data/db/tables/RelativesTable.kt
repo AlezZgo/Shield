@@ -3,10 +3,12 @@ package data.db.tables
 import data.db.models.UIModel
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object RelativesTable : IntIdTable(),UITable{
+object RelativesTable : IntIdTable(), UITable {
     val name: Column<String> = varchar("name", 20)
     val relationDegree: Column<String> = varchar("relationDegree", 30)
     val employment: Column<String> = varchar("employment", 40)
@@ -17,22 +19,24 @@ object RelativesTable : IntIdTable(),UITable{
     val citizen: Column<String> = varchar("citizen", 40)
     val admissionForm: Column<Int> = integer("admissionForm")
 
-    override fun toUI(row: ResultRow) = UIModel(listOf(
-        "ФИО:" to row[name],
-        "Степень родства:" to row[relationDegree],
-        "Работа/учёба:" to row[employment],
-        "День рождения:" to row[birthDay],
-        "Место рождения:" to row[birthPlace],
-        "Страна рождения:" to row[birthCountry],
-        "Национальность:" to row[nationality],
-        "Гражданство:" to row[citizen],
-        "Форма допуска:" to row[admissionForm].toString(),
-    ))
+    override fun toUI(row: ResultRow) = UIModel(
+        listOf(
+            "ФИО:" to row[name],
+            "Степень родства:" to row[relationDegree],
+            "Работа/учёба:" to row[employment],
+            "День рождения:" to row[birthDay],
+            "Место рождения:" to row[birthPlace],
+            "Страна рождения:" to row[birthCountry],
+            "Национальность:" to row[nationality],
+            "Гражданство:" to row[citizen],
+            "Форма допуска:" to row[admissionForm].toString(),
+        )
+    )
 
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
             val all = selectAll()
-            params.forEach { param->
+            params.forEach { param ->
                 param.like(all)
             }
             return@transaction all.map(::toUI)

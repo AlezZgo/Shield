@@ -23,11 +23,11 @@ fun ObjectPreviewCard(
 
     ) {
         Column {
-                Row(modifier = Modifier.padding(12.dp) ) {
-                    Text(text = model.params.first().first, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = model.params.first().second)
-                }
+            Row(modifier = Modifier.padding(12.dp)) {
+                Text(text = model.params.first().first, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(text = model.params.first().second)
+            }
         }
 
     }

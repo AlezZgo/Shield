@@ -26,7 +26,7 @@ object PersonsTable : IntIdTable(), UITable {
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
             val selected = selectAll()
-            params.forEach { param->
+            params.forEach { param ->
                 param.like(selected)
             }
             return@transaction selected.map(::toUI)

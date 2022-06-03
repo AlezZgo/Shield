@@ -1,4 +1,4 @@
-package ui.screens.main
+package extensions.screens.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.VerticalScrollbar
@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -57,7 +56,7 @@ fun MainScreen(
                                     var field by remember { mutableStateOf("") }
                                     TextField(value = field,
                                         singleLine = true,
-                                        onValueChange= { newValue ->
+                                        onValueChange = { newValue ->
                                             val block = {
                                                 field = newValue
                                                 viewModel.filters.value.removeIf {

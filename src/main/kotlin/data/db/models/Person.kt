@@ -6,6 +6,4 @@ data class Person(
     val age: Int,
     val weight: Float,
     val address: Int
-){
-
-}
+)
