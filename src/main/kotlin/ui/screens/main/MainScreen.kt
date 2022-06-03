@@ -15,9 +15,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import extensions.asFilterParam
+import org.jetbrains.exposed.sql.FloatColumnType
+import org.jetbrains.exposed.sql.IntegerColumnType
+import org.jetbrains.exposed.sql.StringColumnType
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
 
@@ -34,10 +36,7 @@ fun MainScreen(
         modifier = Modifier.background(Color.LightGray)
     ) {
         Card(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .padding(4.dp)
+            modifier = Modifier.weight(1f).fillMaxHeight().padding(4.dp)
         ) {
             Column {
                 Spinner(viewModel)
@@ -45,9 +44,7 @@ fun MainScreen(
         }
 
         Column(
-            modifier = Modifier
-                .weight(4f)
-                .fillMaxHeight()
+            modifier = Modifier.weight(4f).fillMaxHeight()
         ) {
             Column {
                 Card(modifier = Modifier.padding(top = 4.dp, end = 4.dp)) {
@@ -59,43 +56,48 @@ fun MainScreen(
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     var field by remember { mutableStateOf("") }
                                     TextField(value = field,
-                                        //todo: не работает тк через field меняется...
-                                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                        onValueChange = { newValue ->
-                                            field = newValue
-                                            viewModel.filters.value.removeIf {
-                                                it.column == column
+                                        singleLine = true,
+                                        onValueChange= { newValue ->
+                                            val block = {
+                                                field = newValue
+                                                viewModel.filters.value.removeIf {
+                                                    it.column == column
+                                                }
+                                                if (newValue.isNotEmpty()) {
+                                                    viewModel.filters.value.add(column.asFilterParam(newValue))
+                                                }
                                             }
-                                            if(newValue.isNotEmpty()){
-                                                viewModel.filters.value.add(column.asFilterParam(newValue))
+                                            when (column.columnType) {
+                                                is IntegerColumnType, is FloatColumnType -> {
+                                                    if (newValue.all { it.isDigit() }) {
+                                                        block.invoke()
+                                                    }
+                                                }
+                                                is StringColumnType -> {
+                                                    block.invoke()
+                                                }
+                                                else -> throw RuntimeException("Unknown")
                                             }
                                         },
                                         label = { Text(column.name) })
                                 }
                             }
                         }
-                        Button(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                            onClick = {
-                                viewModel.refresh()
-                            }) {
+                        Button(modifier = Modifier.fillMaxWidth().padding(8.dp), onClick = {
+                            viewModel.refresh()
+                        }) {
                             Text("Поиск")
                         }
 
                     }
                 }
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(top = 4.dp)
-                        .fillMaxSize()
+                    modifier = Modifier.weight(1f).padding(top = 4.dp).fillMaxSize()
                 ) {
                     val state = rememberLazyListState()
 
                     LazyColumn(
-                        modifier = Modifier,
-                        state
+                        modifier = Modifier, state
                     ) {
                         items(commons.value) { common ->
                             ObjectPreviewCard(common) {
