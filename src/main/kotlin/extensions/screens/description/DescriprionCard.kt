@@ -41,8 +41,7 @@ fun DescriptionScreen(model: UIModel, table: CustomTable, viewModel: MainViewMod
                         Text(text = "Отмена")
                     }
                 }
-            }else{
-                Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            }else{Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
                     Button(modifier = Modifier.padding(4.dp).weight(1f), onClick = {
                         isEditMode = !isEditMode
                     }) {
@@ -55,8 +54,7 @@ fun DescriptionScreen(model: UIModel, table: CustomTable, viewModel: MainViewMod
                         }) {
                         Text(text = "Удалить")
                     }
-                }
-            }
+                }}
             Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth().padding(4.dp)

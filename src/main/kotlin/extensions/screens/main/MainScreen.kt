@@ -99,10 +99,10 @@ fun MainScreen(
                     LazyColumn(
                         modifier = Modifier, state
                     ) {
-                        items(commons.value) { common ->
-                            ObjectPreviewCard(common) {
-                                openDescriptionWindow(common.params.first().first) {
-                                    DescriptionScreen(common,currentTable.value as CustomTable,viewModel)
+                        items(commons.value) { model ->
+                            ObjectPreviewCard(model) {
+                                openDescriptionWindow(model.params.first().first) {
+                                    DescriptionScreen(model,currentTable.value as CustomTable,viewModel)
                                 }
                             }
                             Spacer(modifier = Modifier.height(5.dp))
