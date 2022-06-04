@@ -14,6 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import data.db.tables.CustomTable
 import extensions.screens.main.MainViewModel
+import org.jetbrains.exposed.sql.FloatColumnType
+import org.jetbrains.exposed.sql.IntegerColumnType
+import org.jetbrains.exposed.sql.StringColumnType
+import org.jetbrains.exposed.sql.Table
 import ui.views.UIModel
 
 
@@ -73,9 +77,20 @@ fun DescriptionScreen(model: UIModel, table: CustomTable, viewModel: MainViewMod
                                 value = content,
                                 modifier = Modifier.fillMaxWidth().padding(4.dp),
                                 enabled = isEditMode,
-                                onValueChange = {
-                                    content = it
-                                    newModel[index] = pair.first to it
+                                onValueChange = {newValue->
+                                    when ((table as Table).columns.drop(1)[index].columnType) {
+                                        is IntegerColumnType, is FloatColumnType -> {
+                                            if (newValue.all { it.isDigit() }) {
+                                                content = newValue
+                                                newModel[index] = pair.first to newValue
+                                            }
+                                        }
+                                        is StringColumnType -> {
+                                            content = newValue
+                                            newModel[index] = pair.first to newValue
+                                        }
+                                        else -> throw RuntimeException("Unknown")
+                                    }
                                 })
                         }
                     }
