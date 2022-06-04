@@ -15,6 +15,14 @@ object AddressesTable : IntIdTable(), CustomTable {
         )
     )
 
+    override suspend fun add(uiModel: UIModel) {
+        transaction {
+            insert {
+                it[address] = uiModel.params.first().second
+            }
+        }
+    }
+
     override suspend fun filtered(params: MutableSet<FilterParam<*>>): List<UIModel> {
         return transaction {
             val all = selectAll()

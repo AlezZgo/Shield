@@ -6,7 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,10 +18,11 @@ import androidx.compose.ui.unit.dp
 import data.db.tables.CustomTable
 import extensions.asFilterParam
 import extensions.screens.description.DescriptionScreen
-import extensions.screens.openDescriptionWindow
+import extensions.screens.openWindow
 import org.jetbrains.exposed.sql.FloatColumnType
 import org.jetbrains.exposed.sql.IntegerColumnType
 import org.jetbrains.exposed.sql.StringColumnType
+import ui.views.CreatingCard
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
 
@@ -39,6 +43,13 @@ fun MainScreen(
         ) {
             Column {
                 Spinner(viewModel)
+                Button(onClick = {
+                    openWindow("Добавить") {
+                        CreatingCard(currentTable.value as CustomTable, viewModel)
+                    }
+                }) {
+                    Text("Добавить")
+                }
             }
         }
 
@@ -52,8 +63,10 @@ fun MainScreen(
                             cells = GridCells.Fixed(4)
                         ) {
                             items(currentTable.value.columns.drop(1)) { column ->
-                                Column(horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(4.dp)) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.padding(4.dp)
+                                ) {
                                     var field by remember { mutableStateOf("") }
                                     OutlinedTextField(value = field,
                                         singleLine = true,
@@ -101,8 +114,8 @@ fun MainScreen(
                     ) {
                         items(commons.value) { model ->
                             ObjectPreviewCard(model) {
-                                openDescriptionWindow(model.params.first().first) {
-                                    DescriptionScreen(model,currentTable.value as CustomTable,viewModel)
+                                openWindow(model.params.first().second) {
+                                    DescriptionScreen(model, currentTable.value as CustomTable, viewModel)
                                 }
                             }
                             Spacer(modifier = Modifier.height(5.dp))

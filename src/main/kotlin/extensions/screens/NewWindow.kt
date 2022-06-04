@@ -3,11 +3,10 @@ package extensions.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.awt.ComposeWindow
 import java.awt.Dimension
-import java.awt.SystemColor.window
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
-fun openDescriptionWindow(titleName: String,content: @Composable () -> Unit) = SwingUtilities.invokeLater {
+fun openWindow(titleName: String, content: @Composable () -> Unit) = SwingUtilities.invokeLater {
     ComposeWindow().apply {
         size = Dimension(400,600)
         title = titleName

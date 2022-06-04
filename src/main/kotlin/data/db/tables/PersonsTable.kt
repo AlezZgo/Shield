@@ -3,7 +3,6 @@ package data.db.tables
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import ui.views.UIModel
 
@@ -51,6 +50,17 @@ object PersonsTable : IntIdTable(), CustomTable {
                 it[age] = newModel.params[1].second.toInt()
                 it[weight] = newModel.params[2].second.toFloat()
                 it[address] = newModel.params[3].second.toInt()
+            }
+        }
+    }
+
+    override suspend fun add(uiModel: UIModel) {
+        transaction {
+            insert {
+                it[name] = uiModel.params[0].second
+                it[age] = uiModel.params[1].second.toInt()
+                it[weight] = uiModel.params[2].second.toFloat()
+                it[address] = uiModel.params[3].second.toInt()
             }
         }
     }

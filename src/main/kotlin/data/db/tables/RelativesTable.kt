@@ -4,7 +4,6 @@ import ui.views.UIModel
 import data.db.models.params.core.FilterParam
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object RelativesTable : IntIdTable(), CustomTable {
@@ -64,6 +63,23 @@ object RelativesTable : IntIdTable(), CustomTable {
                 it[nationality] = newModel.params[6].second
                 it[citizen] = newModel.params[7].second
                 it[admissionForm] = newModel.params[8].second.toInt()
+            }
+        }
+    }
+
+
+    override suspend fun add(uiModel: UIModel) {
+        transaction {
+            insert {
+                it[name] = uiModel.params[0].second
+                it[relationDegree] = uiModel.params[1].second
+                it[employment] = uiModel.params[2].second
+                it[birthDay] = uiModel.params[3].second.toString()
+                it[birthPlace] = uiModel.params[4].second
+                it[birthCountry] = uiModel.params[5].second
+                it[nationality] = uiModel.params[6].second
+                it[citizen] = uiModel.params[7].second
+                it[admissionForm] = uiModel.params[8].second.toInt()
             }
         }
     }

@@ -49,6 +49,13 @@ class MainViewModel(val tables: List<Table>) {
         }
     }
 
+    fun add(uiModel: UIModel, table: CustomTable) {
+        coroutineScope.launch {
+            table.add(uiModel)
+            refresh()
+        }
+    }
+
 
 }
 
