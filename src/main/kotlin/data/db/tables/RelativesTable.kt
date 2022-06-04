@@ -58,12 +58,12 @@ object RelativesTable : IntIdTable(), CustomTable {
                 it[name] = newModel.params[0].second
                 it[relationDegree] = newModel.params[1].second
                 it[employment] = newModel.params[2].second
-                it[birthDay] = newModel.params[3].second
-                it[birthPlace] = newModel.params[1].second
-                it[birthCountry] = newModel.params[2].second
-                it[nationality] = newModel.params[3].second
-                it[citizen] = newModel.params[2].second
-                it[admissionForm] = newModel.params[3].second.toInt()
+                it[birthDay] = newModel.params[3].second.toString()
+                it[birthPlace] = newModel.params[4].second
+                it[birthCountry] = newModel.params[5].second
+                it[nationality] = newModel.params[6].second
+                it[citizen] = newModel.params[7].second
+                it[admissionForm] = newModel.params[8].second.toInt()
             }
         }
     }
