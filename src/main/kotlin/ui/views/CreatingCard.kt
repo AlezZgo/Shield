@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +27,9 @@ fun CreatingCard(table: CustomTable, viewModel: MainViewModel) {
 
     Card(modifier = Modifier.fillMaxSize().padding(4.dp)) {
         if (isFinished) {
-            Text(text = "Объект добавлен в базу данных!")
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(text = "Объект добавлен в базу данных!", modifier = Modifier.align(Alignment.Center))
+            }
         } else {
             Column {
                 Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {

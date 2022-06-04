@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import ui.views.UIModel
 
 object AddressesTable : IntIdTable(), CustomTable {
-    val address: Column<String> = varchar("address", 100)
+    val address: Column<String> = varchar("address", 100,)
 
     override fun toUI(row: ResultRow) = UIModel(
         listOf(

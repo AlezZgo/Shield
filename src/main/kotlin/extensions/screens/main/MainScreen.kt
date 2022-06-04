@@ -19,6 +19,7 @@ import data.db.tables.CustomTable
 import extensions.asFilterParam
 import extensions.screens.description.DescriptionScreen
 import extensions.screens.openWindow
+import extensions.toRussian
 import org.jetbrains.exposed.sql.FloatColumnType
 import org.jetbrains.exposed.sql.IntegerColumnType
 import org.jetbrains.exposed.sql.StringColumnType
@@ -39,11 +40,11 @@ fun MainScreen(
         modifier = Modifier.background(Color.LightGray)
     ) {
         Card(
-            modifier = Modifier.width(200.dp).fillMaxHeight().padding(4.dp)
+            modifier = Modifier.width(180.dp).fillMaxHeight().padding(4.dp)
         ) {
             Column {
                 Spinner(viewModel)
-                Button(onClick = {
+                Button(modifier = Modifier.fillMaxWidth().padding(4.dp), onClick = {
                     openWindow("Добавить") {
                         CreatingCard(currentTable.value as CustomTable, viewModel)
                     }
@@ -57,7 +58,7 @@ fun MainScreen(
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Column {
-                Card(modifier = Modifier.padding(top = 4.dp, end = 4.dp)) {
+                Card(modifier = Modifier.padding(top = 4.dp, end = 4.dp, bottom = 4.dp)) {
                     Column {
                         LazyVerticalGrid(
                             cells = GridCells.Fixed(4)
@@ -79,6 +80,7 @@ fun MainScreen(
                                                 if (newValue.isNotEmpty()) {
                                                     viewModel.filters.value.add(column.asFilterParam(newValue))
                                                 }
+                                                viewModel.refresh()
                                             }
                                             when (column.columnType) {
                                                 is IntegerColumnType, is FloatColumnType -> {
@@ -92,16 +94,10 @@ fun MainScreen(
                                                 else -> throw RuntimeException("Unknown")
                                             }
                                         },
-                                        label = { Text(column.name) })
+                                        label = { Text(column.name.toRussian()) })
                                 }
                             }
                         }
-                        Button(modifier = Modifier.fillMaxWidth().padding(8.dp), onClick = {
-                            viewModel.refresh()
-                        }) {
-                            Text("Поиск")
-                        }
-
                     }
                 }
                 Box(

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import extensions.screens.main.MainViewModel
+import extensions.toRussian
 
 @Composable
 fun Spinner(viewModel: MainViewModel) {
@@ -32,7 +33,7 @@ fun Spinner(viewModel: MainViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) { // Anchor view
             Text(
-                text = viewModel.currentTable.value.tableName,
+                text = viewModel.currentTable.value.tableName.toRussian(),
                 fontSize = 18.sp,
                 modifier = Modifier.padding(end = 8.dp)
             )
@@ -48,7 +49,7 @@ fun Spinner(viewModel: MainViewModel) {
                         viewModel.filters.value.clear()
                         viewModel.refresh()
                     }) {
-                        Text(text = table.tableName)
+                        Text(text = table.tableName.toRussian())
                     }
                 }
             }
