@@ -1,14 +1,20 @@
 package extensions.screens.main
 
-import ui.views.UIModel
 import data.db.models.params.core.FilterParam
 import data.db.tables.CustomTable
+import extensions.toRussian
+import io.github.evanrupert.excelkt.Sheet
+import io.github.evanrupert.excelkt.workbook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.jetbrains.exposed.sql.Table
+import ui.views.UIModel
 
 class MainViewModel(val tables: List<Table>) {
 
@@ -42,9 +48,9 @@ class MainViewModel(val tables: List<Table>) {
         }
     }
 
-    fun edit(oldModel: UIModel,newModel: UIModel, table: CustomTable) {
+    fun edit(oldModel: UIModel, newModel: UIModel, table: CustomTable) {
         coroutineScope.launch {
-            table.edit(oldModel,newModel)
+            table.edit(oldModel, newModel)
             refresh()
         }
     }
@@ -57,9 +63,35 @@ class MainViewModel(val tables: List<Table>) {
     }
 
     fun exportCurrentDataToExcel() {
-        _commons
+
+        coroutineScope.launch {
+            workbook {
+                sheet(currentTable.value.tableName.toRussian()) {
+                    row(headerStyle()) {
+                        _commons.value.first().params.forEach {
+                            cell(it.first)
+                        }
+                    }
+                    _commons.value.forEach{
+                        row() {
+                            it.params.forEachIndexed{index, pair ->
+                                cell(pair.second)
+                            }
+                        }
+                    }
+                }
+            }.write("${currentTable.value.tableName.toRussian()} ${currentTable.value.hashCode()}.xlsx")
+        }
     }
 
+    fun Sheet.headerStyle(): XSSFCellStyle = createCellStyle {
+        setFont(createFont {
+            fontName = "Roboto"
+            color = IndexedColors.BLACK.index
+        })
+        fillPattern = FillPatternType.SOLID_FOREGROUND
+        fillForegroundColor = IndexedColors.AQUA.index
+    }
 
 }
 

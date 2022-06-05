@@ -29,6 +29,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("com.h2database:h2:2.1.212")
+    implementation("io.github.evanrupert:excelkt:1.0.2")
 
 }
 

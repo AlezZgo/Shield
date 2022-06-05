@@ -65,11 +65,13 @@ fun CreatingCard(table: CustomTable, viewModel: MainViewModel) {
                                                 if (newValue.all { it.isDigit() }) {
                                                     content = newValue
                                                     model[index] = pair.first to newValue
+                                                    val a = 2
                                                 }
                                             }
                                             is StringColumnType -> {
                                                 content = newValue
                                                 model[index] = pair.first to newValue
+                                                val a = 2
                                             }
                                             else -> throw RuntimeException("Unknown")
                                         }
