@@ -59,7 +59,7 @@ fun CreatingCard(table: CustomTable, viewModel: MainViewModel) {
                                     value = content,
                                     modifier = Modifier.fillMaxWidth().padding(4.dp),
                                     onValueChange = { newValue->
-
+                                        if (newValue.length > 99) return@OutlinedTextField
                                         when ((table as Table).columns.drop(1)[index].columnType) {
                                             is IntegerColumnType, is FloatColumnType -> {
                                                 if (newValue.all { it.isDigit() }) {

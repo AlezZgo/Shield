@@ -38,7 +38,7 @@ fun MainScreen(
 
     if(saved){
         AlertDialog(onDismissRequest = {},
-            title = { Text("Сохранение") },
+            title = { Text("Экспорт данных в Excel") },
             confirmButton = {
                 Button(onClick = {
                     viewModel.exportCurrentDataToExcel()
@@ -54,7 +54,7 @@ fun MainScreen(
                     Text("Отмена")
                 }
             },
-            text = { Text("Вы действительно хотите сохранить текущую таблицу?") })
+            text = { Text("Вы уверены?") })
     }
 
     Row(

@@ -89,6 +89,7 @@ fun DescriptionScreen(model: UIModel, table: CustomTable, viewModel: MainViewMod
                                     modifier = Modifier.fillMaxWidth().padding(4.dp),
                                     enabled = isEditMode,
                                     onValueChange = { newValue ->
+                                        if (newValue.length > 100) return@OutlinedTextField
                                         when ((table as Table).columns.drop(1)[index].columnType) {
                                             is IntegerColumnType, is FloatColumnType -> {
                                                 if (newValue.all { it.isDigit() }) {
