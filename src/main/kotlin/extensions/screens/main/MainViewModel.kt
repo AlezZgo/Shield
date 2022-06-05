@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.xssf.usermodel.XSSFCellStyle
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.skiko.currentNanoTime
 import ui.views.UIModel
 
 class MainViewModel(val tables: List<Table>) {
@@ -80,7 +81,7 @@ class MainViewModel(val tables: List<Table>) {
                         }
                     }
                 }
-            }.write("${currentTable.value.tableName.toRussian()} ${currentTable.value.hashCode()}.xlsx")
+            }.write("${currentTable.value.tableName.toRussian()} ${currentNanoTime()}.xlsx")
         }
     }
 
