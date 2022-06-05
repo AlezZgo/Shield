@@ -3,10 +3,7 @@ package extensions.screens.main
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,14 +26,36 @@ import ui.views.CreatingCard
 import ui.views.ObjectPreviewCard
 import ui.views.Spinner
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
 ) {
 
     val commons = viewModel.commons.collectAsState()
+    var saved by remember { mutableStateOf(false) }
     val currentTable = viewModel.currentTable.collectAsState()
+
+    if(saved){
+        AlertDialog(onDismissRequest = {},
+            title = { Text("Сохранение") },
+            confirmButton = {
+                Button(onClick = {
+                    viewModel.exportCurrentDataToExcel()
+                    saved = false
+                }) {
+                    Text("Сохранить")
+                }
+            },
+            dismissButton = {
+                OutlinedButton(onClick = {
+                    saved = false
+                }) {
+                    Text("Отмена")
+                }
+            },
+            text = { Text("Вы действительно хотите сохранить текущую таблицу?") })
+    }
 
     Row(
         modifier = Modifier.background(Color.LightGray)
@@ -62,7 +81,7 @@ fun MainScreen(
                     }
                     Button(modifier = Modifier.weight(1f).padding(4.dp),
                         onClick = {
-                            viewModel.exportCurrentDataToExcel()
+                            saved = true
                         }) {
                         Image(
                             painterResource("excel_office.png"),

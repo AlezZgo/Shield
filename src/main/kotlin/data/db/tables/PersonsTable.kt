@@ -23,7 +23,8 @@ object PersonsTable : IntIdTable(), CustomTable {
     override fun toUI(row: ResultRow) = UIModel(
         listOf(
             "ФИО" to row[name],
-            "Возраст" to row[obj].toString(),
+            "Объект" to row[jobPosition].toString(),
+            "Должность" to row[obj].toString(),
             "Воинское звание" to row[militaryRank].toString(),
             "Пол" to row[sex].toString(),
             "Девичья фамилия" to row[maidenName].toString(),

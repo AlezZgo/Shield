@@ -11,6 +11,11 @@ fun String.toRussian() : String = when(this){
     "citizen" -> "Гражданство"
     "admissionForm" -> "Форма допуска"
     "age" -> "Возраст"
+    "object" -> "Объект"
+    "jobPosition" -> "Должность"
+    "militaryRank" -> "Воинское звание"
+    "sex" -> "Пол"
+    "maidenName" -> "Девичья фамилия"
     "weight" -> "Вес"
     "address","address_id" -> "Адрес"
 
