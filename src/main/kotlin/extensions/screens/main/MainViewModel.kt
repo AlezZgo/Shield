@@ -56,6 +56,10 @@ class MainViewModel(val tables: List<Table>) {
         }
     }
 
+    fun exportCurrentDataToExcel() {
+        _commons
+    }
+
 
 }
 

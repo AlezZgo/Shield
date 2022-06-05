@@ -1,11 +1,8 @@
 package extensions.screens.main
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.VerticalScrollbar
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.OutlinedTextField
@@ -14,6 +11,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.key.Key.Companion.R
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import data.db.tables.CustomTable
 import extensions.asFilterParam
@@ -50,6 +52,17 @@ fun MainScreen(
                     }
                 }) {
                     Text("Добавить")
+                }
+                Button(modifier = Modifier.padding(4.dp),
+                    onClick = {
+                        viewModel.exportCurrentDataToExcel()
+                    }) {
+                        Image(
+                            painterResource("excel_office.png"),
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp),
+                            colorFilter = ColorFilter.tint(Color.White)
+                        )
                 }
             }
         }
