@@ -44,26 +44,35 @@ fun MainScreen(
         Card(
             modifier = Modifier.width(180.dp).fillMaxHeight().padding(4.dp)
         ) {
+
             Column {
                 Spinner(viewModel)
-                Button(modifier = Modifier.fillMaxWidth().padding(4.dp), onClick = {
-                    openWindow("Добавить") {
-                        CreatingCard(currentTable.value as CustomTable, viewModel)
-                    }
-                }) {
-                    Text("Добавить")
-                }
-                Button(modifier = Modifier.padding(4.dp),
-                    onClick = {
-                        viewModel.exportCurrentDataToExcel()
+                Row {
+                    Button(modifier = Modifier.weight(1f).padding(4.dp), onClick = {
+                        openWindow("Добавить") {
+                            CreatingCard(currentTable.value as CustomTable, viewModel)
+                        }
                     }) {
+                        Image(
+                            painterResource("plus.png"),
+                            contentDescription = "",
+                            modifier = Modifier.size(40.dp),
+                            colorFilter = ColorFilter.tint(Color.White)
+                        )
+                    }
+                    Button(modifier = Modifier.weight(1f).padding(4.dp),
+                        onClick = {
+                            viewModel.exportCurrentDataToExcel()
+                        }) {
                         Image(
                             painterResource("excel_office.png"),
                             contentDescription = "",
                             modifier = Modifier.size(40.dp),
                             colorFilter = ColorFilter.tint(Color.White)
                         )
+                    }
                 }
+
             }
         }
 
@@ -85,6 +94,7 @@ fun MainScreen(
                                     OutlinedTextField(value = field,
                                         singleLine = true,
                                         onValueChange = { newValue ->
+                                            if (newValue.length > 100) return@OutlinedTextField
                                             val block = {
                                                 field = newValue
                                                 viewModel.filters.value.removeIf {

@@ -44,7 +44,7 @@ fun App() {
 }
 
 private fun initDB(tables: List<Table>) {
-    val db = Database.connect("jdbc:h2:./db", "org.h2.Driver")
+    val db = Database.connect("jdbc:h2:./db/db", "org.h2.Driver")
 
     TransactionManager.manager.defaultIsolationLevel =
         Connection.TRANSACTION_SERIALIZABLE
