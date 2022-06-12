@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import data.db.tables.CustomTable
 import extensions.screens.main.MainViewModel
+import extensions.toRussian
 import org.jetbrains.exposed.sql.FloatColumnType
 import org.jetbrains.exposed.sql.IntegerColumnType
 import org.jetbrains.exposed.sql.StringColumnType

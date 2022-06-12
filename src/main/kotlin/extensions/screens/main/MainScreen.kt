@@ -151,14 +151,11 @@ fun MainScreen(
                         modifier = Modifier, state
                     ) {
                         items(commons.value) { model ->
-                            ObjectPreviewCard(model, {
+                            ObjectPreviewCard(model) {
                                 openWindow(model.params.first().second) {
                                     DescriptionScreen(model, currentTable.value as CustomTable, viewModel)
                                 }
-                            },{
-                                viewModel.delete(model,currentTable as CustomTable)
-                                viewModel.refresh()
-                            })
+                            }
                             Spacer(modifier = Modifier.height(5.dp))
                         }
 

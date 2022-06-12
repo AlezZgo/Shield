@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import data.db.tables.CustomTable
 import extensions.asFilterParam
 import extensions.screens.main.MainViewModel
+import extensions.toRussian
 import org.jetbrains.exposed.sql.FloatColumnType
 import org.jetbrains.exposed.sql.IntegerColumnType
 import org.jetbrains.exposed.sql.StringColumnType
@@ -51,7 +52,7 @@ fun CreatingCard(table: CustomTable, viewModel: MainViewModel) {
                                 var content by remember { mutableStateOf(pair.second) }
 
                                 Text(
-                                    text = pair.first,
+                                    text = pair.first.toRussian(),
                                     modifier = Modifier.fillMaxWidth().padding(4.dp),
                                     fontWeight = FontWeight.Bold
                                 )
